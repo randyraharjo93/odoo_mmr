@@ -1,0 +1,3 @@
+id,description,chart_template_id:id,type_tax_use,name,amount_type,amount,account_id:id,refund_account_id:id,children_tax_ids:id,tag_ids:id
+ST1,PPN Keluaran,l10n_id_fal,sale,PPN Keluaran,percent,10,2-122-101,2-122-101,,tag_st1
+PT1,PPN Masukan,l10n_id_fal,purchase,PPN Masukan (10%),percent,10,2-122-102,2-122-102,,tag_pt1
