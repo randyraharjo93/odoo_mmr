@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_nomor_faktur_pajak_tree" model="ir.ui.view">
+            <field name="name">nomor.faktur.pajak.tree</field>
+            <field name="model">faktur.pajak</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Nomor Faktur">
+                    <field name="pajak_type" invisible="1"/>
+                    <field name="name"/>
+                    <field name="nomor_perusahaan"/>
+                    <field name="date_used"/>
+                    <field name="invoice_id"/>
+                    <field name="partner_id"/>
+                    <field name="dpp"/>
+                    <field name="tax_amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_anomor_faktur_pajak_form" model="ir.ui.view">
+            <field name="name">nomor.faktur.pajak.form</field>
+            <field name="model">faktur.pajak</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Nomor Faktur">
+                    <header>
+                    	<button name="used" type="object" states="0" string="Use" class="oe_highlight"/>
+                    	<button name="report" type="object" states="1" string="Report" class="oe_highlight"/>
+                    	<button name="cancel" type="object" states="1,2" string="Cancel" class="oe_highlight"/>
+                         <field name="state" widget="statusbar" statusbar_visible="0,1,2,3" statusbar_colors='{"state":"1"}' readonly="1"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <label string="Faktur Pajak No "/>
+                                <field name="name" class="oe_inline"/>
+                            </h1>
+                            <div class="o_row">
+                            	<field name="nomor_perusahaan"/>-
+                            	<field name="kode_cabang"/>.
+                            	<field name="tahun_penerbit"/>.
+                            	<field name="nomor_urut"/>
+
+                            </div>
+                        </div>
+                        <group string="Faktur Details">
+                            <group>
+                               <field name="date_used"/>
+                               <field name="invoice_id"/>
+                               <field name="partner_id"  context="{'show_address': 1}" options='{"always_reload": True}'/>
+                               <field name="company_id"/>
+                            </group>
+                            <group>
+                               <field name="pajak_type"/>
+                               <field name="dpp"/>
+                               <field name="tax_amount"/>
+                               <field name="currency_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_account_nomor_faktur_pajak" model="ir.actions.act_window">
+            <field name="name">Faktur Pajak Masukan</field>
+            <field name="res_model">faktur.pajak</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('pajak_type', '=', 'in')]</field>
+            <field name="context">{'pajak_type':'in'}</field>
+        </record>
+         <record id="action_account_nomor_faktur_pajak_keluaran" model="ir.actions.act_window">
+            <field name="name">Faktur Pajak Keluaran</field>
+            <field name="res_model">faktur.pajak</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('pajak_type', '=', 'out')]</field>
+            <field name="context">{'pajak_type':'out'}</field>
+        </record>
+
+        <menuitem id="faktur_pajak_menu" name="Faktur Pajak" parent="account.menu_finance_entries" sequence="10"/>
+        <menuitem id="ad_menu_nomor_faktur_pajak_keluar" parent="account.menu_finance_receivables" action="action_account_nomor_faktur_pajak_keluaran"/>
+        <menuitem id="ad_menu_nomor_faktur_pajak_masuk" parent="account.menu_finance_payables" action="action_account_nomor_faktur_pajak"/>
+    </data>
+</odoo>
