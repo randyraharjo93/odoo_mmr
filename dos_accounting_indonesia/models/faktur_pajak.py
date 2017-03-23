@@ -9,7 +9,7 @@ class FakturPajak(models.Model):
 
     nomor_perusahaan = fields.Char(string='Nomor Perusahaan', size=3, default="010")
     tahun_penerbit = fields.Char(string='Tahun Penerbit', size=2, default=lambda self: fields.Date.from_string(fields.Date.context_today(self)).strftime('%y'))
-    kode_cabang = fields.Char(string='Kode Cabang', size=3, default="000")
+    kode_cabang = fields.Char(string='Kode Cabang', size=3, default="001")
     nomor_urut = fields.Char(string='Nomor Urut', size=8)
     name = fields.Char(string='Nomor Faktur', compute='_get_faktur', store=True)
     invoice_id = fields.Many2one('account.invoice', string='Invoice No')
@@ -22,7 +22,7 @@ class FakturPajak(models.Model):
     pajak_type = fields.Selection([('in', 'Faktur Pajak Masukan'), ('out', 'Faktur Pajak Keluaran')], string='Type', default="out")
     state = fields.Selection([('0', 'Not Used'), ('1', 'Used'), ('2', 'Reported'), ('3', 'Cancelled')], string='Status', default='0')
 
-    @api.depends('name', 'nomor_perusahaan', 'kode_cabang', 'tahun_penerbit', 'nomor_urut')
+    @api.depends('nomor_perusahaan', 'kode_cabang', 'tahun_penerbit', 'nomor_urut')
     def _get_faktur(self):
         for nomor in self:
             name = "%s.%s-%s.%s" % (nomor.nomor_perusahaan, nomor.kode_cabang, nomor.tahun_penerbit, nomor.nomor_urut)

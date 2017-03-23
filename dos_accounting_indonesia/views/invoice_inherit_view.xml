@@ -10,7 +10,7 @@
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='partner_id']" position="after">
-                    <field name="faktur_pajak" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('pajak_type', '=', 'in'),('state','=','0')]"/>
+                    <field name="faktur_pajak" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="[('pajak_type', '=', 'out'),('state','=','0')]"/>
                 </xpath>
             </field>
         </record>

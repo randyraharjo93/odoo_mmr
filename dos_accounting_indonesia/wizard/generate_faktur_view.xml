@@ -10,18 +10,22 @@
                 	<group>
                 		<field name="pajak_type"/>
 					</group>
-                    <group >
-                		<group>
-	                		<field name="nomor_faktur_awal" readonly="1" invisible="1"/>
-	                        <field name="nomor_perusahaan" placeholder="000" />
-	                        <field name="strip" readonly="1" invisible="1"/>
-	                        <field name="tahun" placeholder="15" />
-	                        <field name="dot" readonly="1" invisible="1"/>
-	                    </group>
-	                    <group>
-	                        <field name="nomor_awal" placeholder="00000001"/>
-	                        <field name="nomor_akhir" placeholder="00000010"/>
-						</group>
+            		<group>
+                        <label for="nomor_perusahaan" string="Format Faktur"/>
+                        <div>
+                            <field name="nomor_perusahaan" placeholder="000" class="oe_inline"/>
+                            <label string="-" class="oe_inline"/>
+                            <field name="kode_cabang" placeholder="001" class="oe_inline"/>
+                            <label string="." class="oe_inline"/>
+                            <field name="tahun" placeholder="15" class="oe_inline"/>
+                            <label string="." class="oe_inline"/>
+                        </div>
+                        <label for="nomor_awal" string="Range"/>
+                        <div>
+                            <field name="nomor_awal" placeholder="00000001" class="oe_inline"/>
+                            <label string="/" class="oe_inline"/>
+                            <field name="nomor_akhir" placeholder="00000010" class="oe_inline"/>
+                        </div>
                     </group>
                     <footer>
 	                    <button name="generate_faktur" string="Create" type="object" class="oe_highlight"/>

@@ -29,20 +29,21 @@
                     	<button name="used" type="object" states="0" string="Use" class="oe_highlight"/>
                     	<button name="report" type="object" states="1" string="Report" class="oe_highlight"/>
                     	<button name="cancel" type="object" states="1,2" string="Cancel" class="oe_highlight"/>
-                         <field name="state" widget="statusbar" statusbar_visible="0,1,2,3" statusbar_colors='{"state":"1"}' readonly="1"/>
+                        <field name="state" widget="statusbar" statusbar_visible="0,1,2,3" statusbar_colors='{"state":"1"}' readonly="1"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
                             <h1>
-                                <label string="Faktur Pajak No "/>
-                                <field name="name" class="oe_inline"/>
+                                <label for="name" string="Faktur Pajak No "/>
+                                <div>
+                                    <field name="name" class="oe_inline"/>
+                                </div>
                             </h1>
                             <div class="o_row">
                             	<field name="nomor_perusahaan"/>-
                             	<field name="kode_cabang"/>.
                             	<field name="tahun_penerbit"/>.
                             	<field name="nomor_urut"/>
-
                             </div>
                         </div>
                         <group string="Faktur Details">
