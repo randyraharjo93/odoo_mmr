@@ -30,7 +30,8 @@ class AccountInvoice(models.Model):
             if inv.type == 'in_invoice':
                 if inv.nomor_faktur_pajak:
                     kode_pt = inv.nomor_faktur_pajak[:3]
-                    tahun = inv.nomor_faktur_pajak[4:6]
+                    kode_cabang = inv.nomor_faktur_pajak[4:6]
+                    tahun = inv.nomor_faktur_pajak[7:8]
                     nomor_fp = inv.nomor_faktur_pajak[-8:]
                     vals = {
                         'date_used': date,
@@ -42,6 +43,7 @@ class AccountInvoice(models.Model):
                         'currency_id': inv.currency_id.id,
                         'state': '1',
                         'nomor_perusahaan': kode_pt,
+                        'kode_cabang': kode_cabang,
                         'tahun_penerbit': tahun,
                         'nomor_urut': nomor_fp,
                         }
