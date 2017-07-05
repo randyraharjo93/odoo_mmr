@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="templates" xml:space="preserve"> <!-- inherit_id=".template" -->
+    <!-- add margin to logo -->
+    <!-- xpath expr="//t-name[@name='PosTicket']/div[1]/div[1]" position="before">
+    <div class="pos-center-align"><t t-esc="widget.pos.company.logo"/></div>
+    </xpath --> 
+        <t t-extend="PosTicket">
+        <!-- <t t-jquery=".pos-center-align" t-operation="before">
+        <div class="pos-center-align">
+            <t t-if='receipt.company.logo' >
+                <img t-att-src='receipt.company.logo' />
+                <br/>
+                <t t-esc="order.name"/>
+            </t>
+        </div>
+        </t> -->
+        <t t-jquery=".pos-center-align" t-operation="replace">
+        <div class="pos-center-align">
+            <t t-if='receipt.company.logo' >
+                <img t-att-src='receipt.company.logo' />
+                <br/>
+                <t t-esc="order.name"/>
+            </t>
+        </div>
+        </t>
+        </t>
+
+</templates>
