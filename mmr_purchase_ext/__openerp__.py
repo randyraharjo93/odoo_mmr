@@ -1,23 +1,22 @@
 # -*- coding: utf-8 -*-
 # We have dependencies to odoo voip for now because alexandre want to hide this, but later we can remove it
 {
-    "name": "MMR Sales ext",
+    "name": "MMR Purchase ext",
     "version": "1.0",
     'author': 'Randy',
     "description": """
-    Module to add additional functionality on Sales based on MMR
+    Module to add additional functionality on Purchase based on MMR
     """,
     "depends": [
         'base',
-        'sale',
-        'stock',
+        'purchase',
         'account'
         ],
     'init_xml': [],
     'update_xml': [
-        'views/sale_order_view.xml',
-        'report/report_deliveryslip.xml',
-        'report/report_invoice.xml'
+        'views/purchase_views.xml',
+        'views/account_invoice_view.xml',
+        'report/purchase_order_template.xml'
     ],
     'css': [],
     'js': [],

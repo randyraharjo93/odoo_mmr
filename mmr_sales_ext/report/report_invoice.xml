@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_invoice_document_mmr" inherit_id="account.report_invoice_document">
+            <xpath expr="//div[@class='page']/div[@class='row'][1]/div" position="before">
+                 <div class="col-xs-7">
+                    <strong>
+                        <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Invoice</span>
+                        <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
+                        <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
+                        <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
+                        <span t-if="o.type == 'out_refund'">Refund</span>
+                        <span t-if="o.type == 'in_refund'">Vendor Refund</span>
+                        <span t-if="o.type == 'in_invoice'">Vendor Bill</span>
+                        <span t-field="o.number"/>
+                    </strong>
+                    <div class="row mt32 mb32">
+                        <div class="col-xs-4" t-if="o.date_invoice">
+                            <strong>Invoice Date:</strong>
+                            <p t-field="o.date_invoice"/>
+                        </div>
+                        <div class="col-xs-4" t-if="o.date_due and o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">
+                            <strong>Due Date:</strong>
+                            <p t-field="o.date_due"/>
+                        </div>
+                        <div class="col-xs-4" t-if="o.origin">
+                            <strong>Source:</strong>
+                            <p t-field="o.origin"/>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[@class='page']/div[@class='row'][1]/div[@name='invoice_address']" position="attributes">
+                <attribute name="class">col-xs-5</attribute>
+            </xpath>
+
+            <xpath expr="//div[@class='page']/div[@class='row'][1]/div[@name='invoice_address']/span" position="replace">
+            </xpath>
+
+            <xpath expr="//h2" position="replace">
+            </xpath>
+
+            <xpath expr="//div[@class='page']/div[@class='row mt32 mb32']" position="replace">
+            </xpath>
+
+            <xpath expr="//p[@t-if='o.payment_term_id']" position="replace">
+            </xpath>
+
+            <xpath expr="//div[@class='page']/table/thead/tr/th[6]" position="replace">
+            </xpath>
+
+            <xpath expr="//div[@class='page']/table/tbody/tr/td[6]" position="replace">
+            </xpath>
+
+            <xpath expr="//div[@class='page']/table/thead/tr/th[6]" position="replace">
+                <th class="text-right">Total</th>
+            </xpath>
+
+            <xpath expr="//div[@class='page']/div[@class='row'][2]/div" position="before">
+                <div class="col-xs-8 pull-left" style="border:1px solid">
+                    <span>Pembayaran Harap Ditransfer ke Rekening</span>
+                    <span>Bank: ........ KCP: .............. No Rekening: .........................................................</span>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[@class='page']/div[@class='row'][2]/div[2]/table/tr[1]" position="replace">
+            </xpath>
+
+            <xpath expr="//div[@class='page']/div[@class='row'][2]/div[2]/table/t" position="replace">
+            </xpath>
+
+            <xpath expr="//div[@class='page']/div[@class='row'][2]" position="after">
+                <div class="pull-right">
+                    <span>Terbilang: </span>
+                    <span t-field="o.mmr_written_amount_total"/>
+                    <span> Rupiah</span>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[@class='page']" position="after">
+                <div class="footer">
+                    <div class="text-center">
+                        <span> Faktur ini sah apabila terdapat tanda tangan lengkap dibawah ini </span>
+                    </div>
+                    <div class="col-xs-3">
+                        Tanda Terima,
+                    </div>
+                    <div class="col-xs-offset-6 col-xs-3">
+                        Hormat kami,
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <ul class="list-inline">
+                        <li>Page:</li>
+                        <li><span class="page"/></li>
+                        <li>/</li>
+                        <li><span class="topage"/></li>
+                    </ul>
+                </div>
+            </xpath>
+
+        </template>
+    </data>
+</odoo>

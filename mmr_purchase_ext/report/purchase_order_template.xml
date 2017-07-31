@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_purchaseorder_document_mmr" inherit_id="purchase.report_purchaseorder_document">
+            <xpath expr="//table/thead/tr/th[5]" position="attributes">
+                 <attribute name="groups">purchase.group_purchase_manager</attribute>
+            </xpath>
+            <xpath expr="//table/thead/tr/th[6]" position="attributes">
+                 <attribute name="groups">purchase.group_purchase_manager</attribute>
+            </xpath>
+            <xpath expr="//table/tbody/tr/td[5]" position="attributes">
+                 <attribute name="groups">purchase.group_purchase_manager</attribute>
+            </xpath>
+            <xpath expr="//table/tbody/tr/td[6]" position="attributes">
+                 <attribute name="groups">purchase.group_purchase_manager</attribute>
+            </xpath>
+            <xpath expr="//div[@class='row'][2]" position="attributes">
+                 <attribute name="groups">purchase.group_purchase_manager</attribute>
+            </xpath>
+        </template>
+    </data>
+</odoo>

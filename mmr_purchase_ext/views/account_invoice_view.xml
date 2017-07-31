@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mmr_invoice_supplier_form" model="ir.ui.view">
+            <field name="name">mmr.account.invoice.supplier.form</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <!-- Hide Price for purchase person -->
+                <xpath expr="//form/sheet/notebook/page[1]/field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="attributes">
+                    <attribute name="groups">purchase.group_purchase_manager</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[1]/field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']" position="attributes">
+                    <attribute name="groups">purchase.group_purchase_manager</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[1]/group/group[2]" position="attributes">
+                    <attribute name="groups">purchase.group_purchase_manager</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mmr_invoice_supplier_tree" model="ir.ui.view">
+            <field name="name">mmr.account.invoice.supplier.tree</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="account.invoice_supplier_tree"/>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <!-- Hide Price for purchase person -->
+                <xpath expr="//tree/field[@name='amount_total_signed']" position="attributes">
+                    <attribute name="groups">purchase.group_purchase_manager</attribute>
+                </xpath>
+                <xpath expr="//tree/field[@name='residual_signed']" position="attributes">
+                    <attribute name="groups">purchase.group_purchase_manager</attribute>
+                </xpath>
+            </field>
+        </record>
+
+  </data>
+</openerp>
