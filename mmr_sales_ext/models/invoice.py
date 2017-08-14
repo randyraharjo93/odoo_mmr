@@ -11,6 +11,25 @@ class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
     mmr_written_amount_total = fields.Char(string='Written Amount Total')
+    mmr_source_delivery_order = fields.Char(string='Source Delivery Order', compute="_get_source_delivery_order")
+
+    @api.one
+    @api.depends('invoice_line_ids', 'invoice_line_ids.sale_line_ids')
+    def _get_source_delivery_order(self):
+        if self.invoice_line_ids:
+            mmr_source_delivery_order = False
+            picking_ids = []
+            for invoice_line in self.invoice_line_ids:
+                for sale_order_line in invoice_line.sale_line_ids:
+                    picking_ids += sale_order_line.order_id.picking_ids.ids
+            print picking_ids
+            set_picking_ids = list(set(picking_ids))
+            for set_picking_id in set_picking_ids:
+                if mmr_source_delivery_order:
+                    mmr_source_delivery_order += self.env['stock.picking'].browse(set_picking_id).name + " "
+                else:
+                    mmr_source_delivery_order = self.env['stock.picking'].browse(set_picking_id).name + " "
+            self.mmr_source_delivery_order = mmr_source_delivery_order
 
     @api.model
     def create(self, vals):
