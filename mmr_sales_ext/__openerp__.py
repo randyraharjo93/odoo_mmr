@@ -15,6 +15,7 @@
         ],
     'init_xml': [],
     'update_xml': [
+        'security/ir.model.access.csv',
         'views/sale_order_view.xml',
         'report/report_deliveryslip.xml',
         'report/report_invoice.xml'

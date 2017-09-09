@@ -26,5 +26,30 @@
             </field>
         </record>
 
+        <record id="mmr_code_p_list" model="ir.ui.view">
+            <field name="name">mmr.code.p.list</field>
+            <field name="type">tree</field>
+            <field name="model">code.p.list</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="partner_id"/>
+                    <field name="product_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="mmr_code_p">
+            <field name="name">List Code P</field>
+            <field name="res_model">code.p.list</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="mmr_code_p_menu"
+            name="List Code P"
+            parent="sales_team.menu_sale_config"
+            sequence="11"
+            action="mmr_code_p"/>
+
   </data>
 </openerp>
