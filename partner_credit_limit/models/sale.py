@@ -46,5 +46,5 @@ class SaleOrder(models.Model):
         res = super(SaleOrder, self).action_confirm()
         for order in self:
             if not self.user_has_groups('base.group_erp_manager'):
-                order.check_limit()
+                order.sudo().check_limit()
         return res
