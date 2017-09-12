@@ -27,3 +27,15 @@ class PurchaseOrder(models.Model):
                 name += ': ' + formatLang(self.env, po.amount_total, currency_obj=po.currency_id)
             result.append((po.id, name))
         return result
+
+    filtered_message_ids = fields.Many2many("mail.message", compute="_get_save_message_ids")
+
+    @api.one
+    @api.depends('message_ids')
+    def _get_save_message_ids(self):
+        if self.message_ids:
+            message_ids = []
+            for message_id in self.message_ids:
+                if not message_id.tracking_value_ids:
+                    message_ids.append(message_id.id)
+            self.filtered_message_ids = [(6, 0, message_ids)]

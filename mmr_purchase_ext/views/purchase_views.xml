@@ -34,6 +34,24 @@
                 <xpath expr="//form/sheet/notebook/page[1]/group[@class='oe_subtotal_footer oe_right']" position="attributes">
                     <attribute name="groups">purchase.group_purchase_manager</attribute>
                 </xpath>
+                <!-- Hide Tracking Value for Normal Purchase user -->
+                <xpath expr="//form/div[@class='oe_chatter']/field[@name='message_ids']" position="replace">
+                    <field name="filtered_message_ids" widget="mail_thread"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mmr_purchase_order_form_manager" model="ir.ui.view">
+            <field name="name">mmr.purchase.order.form.manager</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="mmr_purchase_order_form"/>
+            <field name="model">purchase.order</field>
+            <field name="groups_id" eval="[(4,ref('purchase.group_purchase_manager'))]"/>
+            <field name="arch" type="xml">
+                <!-- Show Tracking Value for Manager Purchase user -->
+               <xpath expr="//form/div[@class='oe_chatter']/field[@name='filtered_message_ids']" position="replace">
+                    <field name="message_ids" widget="mail_thread"/>
+                </xpath>
             </field>
         </record>
 
