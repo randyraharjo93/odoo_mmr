@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="price_update_notification_form_view" model="ir.ui.view">
+            <field name="name">Generate Faktur</field>
+            <field name="model">price.update.notification</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Price Change Notification">
+                	<group>
+                		<field name="notification" readonly="1"/>
+					</group>
+                    <footer>
+	                    <button name="confirm_sale" string="Confirm" type="object" class="oe_highlight"/>
+	                    or
+	                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>
