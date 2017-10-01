@@ -18,10 +18,12 @@ class PurchaseOrder(models.Model):
         super(PurchaseOrder, self).button_confirm()
         for order in self:
             for purchase_line in order.order_line:
-                if purchase_line.product_qty > 0:
-                    purchase_price_plus15 = purchase_line.price_subtotal / purchase_line.product_qty + (purchase_line.price_subtotal / purchase_line.product_qty * 0.15)
-                    if purchase_price_plus15 > purchase_line.product_id.lst_price:
-                        purchase_line.product_id.lst_price = purchase_price_plus15
+                base_uom_id = purchase_line.product_uom.search([('category_id', '=', purchase_line.product_uom.category_id.id), ('uom_type', '=', 'reference')])
+                if base_uom_id:
+                    if purchase_line.product_qty > 0:
+                        purchase_price_plus15 = purchase_line.price_subtotal / (purchase_line.product_uom._compute_quantity(purchase_line.product_qty, base_uom_id)) + (purchase_line.price_subtotal / (purchase_line.product_uom._compute_quantity(purchase_line.product_qty, base_uom_id)) * 0.15)
+                        if purchase_price_plus15 > purchase_line.product_id.lst_price:
+                            purchase_line.product_id.lst_price = purchase_price_plus15
         return True
 
     @api.multi
@@ -29,11 +31,13 @@ class PurchaseOrder(models.Model):
         for order in self:
             need_notification = False
             for purchase_line in order.order_line:
-                if purchase_line.product_qty > 0:
-                    purchase_price_plus15 = purchase_line.price_subtotal / purchase_line.product_qty + (purchase_line.price_subtotal / purchase_line.product_qty * 0.15)
-                    if purchase_price_plus15 > purchase_line.product_id.lst_price:
-                        need_notification = True
-            print need_notification
+                print purchase_line.product_uom.category_id
+                base_uom_id = purchase_line.product_uom.search([('category_id', '=', purchase_line.product_uom.category_id.id), ('uom_type', '=', 'reference')])
+                if base_uom_id:
+                    if purchase_line.product_qty > 0:
+                        purchase_price_plus15 = purchase_line.price_subtotal / (purchase_line.product_uom._compute_quantity(purchase_line.product_qty, base_uom_id)) + (purchase_line.price_subtotal / (purchase_line.product_uom._compute_quantity(purchase_line.product_qty, base_uom_id)) * 0.15)
+                        if purchase_price_plus15 > purchase_line.product_id.lst_price:
+                            need_notification = True
             if need_notification:
                 return {
                     'name':_("Confirm Notification"),
