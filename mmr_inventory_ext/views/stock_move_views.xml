@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mmr_stock_move_tree" model="ir.ui.view">
+            <field name="name">mmr.stock.move.tree</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="stock.view_move_tree"/>
+            <field name="model">stock.move</field>
+            <field name="arch" type="xml">
+                <!-- Add partner Name -->
+                <xpath expr="//tree/field[@name='origin']" position="after">
+                    <field name="picking_partner_id"/>
+                </xpath>
+            </field>
+        </record>
+
+  </data>
+</openerp>
