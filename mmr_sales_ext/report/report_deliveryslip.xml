@@ -56,6 +56,13 @@
             <xpath expr="//div[@class='page']/table[2]/tbody/tr/td[2]" position="replace">
             </xpath>
 
+            <xpath expr="//div[@class='page']/table[2]/tbody/tr/td[2]" position="replace">
+                <td class="text-right">
+                    <span t-field="pack_operation.ordered_qty"/>
+                    <span t-field="pack_operation.product_id.mmr_UOM"/>
+                </td>
+            </xpath>
+
             <xpath expr="//div[@class='page']" position="after">
                 <div class="footer">
                     <div class="text-center">

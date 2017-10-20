@@ -1,25 +1,19 @@
 # -*- coding: utf-8 -*-
 # We have dependencies to odoo voip for now because alexandre want to hide this, but later we can remove it
 {
-    "name": "MMR Sales ext",
+    "name": "MMR Description UoM",
     "version": "1.0",
     'author': 'Randy',
     "description": """
-    Module to add additional functionality on Sales based on MMR
+    Module to add UoM just for description
     """,
     "depends": [
         'base',
-        'sale',
         'stock',
-        'account',
-        'mmr_description_UoM',
         ],
     'init_xml': [],
     'update_xml': [
-        'security/ir.model.access.csv',
-        'views/sale_order_view.xml',
-        'report/report_deliveryslip.xml',
-        'report/report_invoice.xml'
+        'views/product_views.xml',
     ],
     'css': [],
     'js': [],
