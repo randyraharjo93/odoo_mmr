@@ -36,6 +36,8 @@ class SaleOrderLine(models.Model):
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    mmr_fee = fields.Monetary("Fee", track_visibility='onchange')
+
     @api.multi
     def action_confirm(self):
         res = super(SaleOrder, self).action_confirm()
