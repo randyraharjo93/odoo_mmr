@@ -16,6 +16,7 @@
         ],
     'init_xml': [],
     'update_xml': [
+        'data/mmr_sales_data.xml',
         'security/ir.model.access.csv',
         'views/sale_order_view.xml',
         'report/report_deliveryslip.xml',

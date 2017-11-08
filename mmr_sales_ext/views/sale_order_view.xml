@@ -41,10 +41,24 @@
             </field>
         </record>
 
+        <record id="mmr_code_p_search" model="ir.ui.view">
+            <field name="name">mmr.code.p.search</field>
+            <field name="model">code.p.list</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="partner_id"/>
+                    <field name="product_id"/>
+                    <filter name="group_by_partner" string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter name="group_by_product" string="Product" domain="[]" context="{'group_by':'product_id'}"/>
+                </search>
+            </field>
+        </record>
+
         <record model="ir.actions.act_window" id="mmr_code_p">
             <field name="name">List Code P</field>
             <field name="res_model">code.p.list</field>
             <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_group_by_partner': 1}"/>
         </record>
 
         <menuitem
@@ -53,6 +67,59 @@
             parent="sales_team.menu_sale_config"
             sequence="11"
             action="mmr_code_p"/>
+
+        <record id="mmr_reccurent_lost_report_tree" model="ir.ui.view">
+            <field name="name">mmr.reccurent.lost.report.tree</field>
+            <field name="type">tree</field>
+            <field name="model">mmr.reccurent.lost.report</field>
+            <field name="arch" type="xml">
+                <tree edit="false" create="false" delete="false">
+                    <field name="partner_id"/>
+                    <field name="product_id"/>
+                    <field name="last_purchase"/>
+                    <field name="last_salesperson_user_id"/>
+                    <field name="last_sale_team_id"/>
+                    <field name="date_since_last_purchase"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mmr_reccurent_lost_report_search" model="ir.ui.view">
+            <field name="name">mmr.reccurent.lost.report.search</field>
+            <field name="model">mmr.reccurent.lost.report</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="partner_id"/>
+                    <field name="product_id"/>
+                    <field name="last_salesperson_user_id"/>
+                    <field name="last_sale_team_id"/>
+                    <filter name="inactive" string="Inactive" domain="[('active', '=', False)]" context="{}" help="Inactive is old record that maybe irrelevant"/>
+                    <separator name="Not Purchasing Above"/>
+                    <filter name="no_purchase_over_1_month" string="1 Month" domain="[('date_since_last_purchase', '&gt;', 30)]" context="{}"/>
+                    <filter name="no_purchase_over_2_month" string="2 Month" domain="[('date_since_last_purchase', '&gt;', 60)]" context="{}"/>
+                    <filter name="no_purchase_over_3_month" string="3 Month" domain="[('date_since_last_purchase', '&gt;', 90)]" context="{}"/>
+                    <filter name="group_by_partner" string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter name="group_by_product" string="Product" domain="[]" context="{'group_by':'product_id'}"/>
+                    <filter name="group_by_last_salesperson_user_id" string="Salesperson" domain="[]" context="{'group_by':'last_salesperson_user_id'}"/>
+                    <filter name="group_by_last_sale_team_id" string="Team / Rayon" domain="[]" context="{'group_by':'last_sale_team_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="mmr_reccurent_lost_report">
+            <field name="name">Purchase Reccurent Lost</field>
+            <field name="res_model">mmr.reccurent.lost.report</field>
+            <field name="view_mode">tree,pivot,graph</field>
+            <field name="context" eval="{'search_default_group_by_partner': 1, 'search_default_no_purchase_over_2_month': 1}"/>
+            <field name="search_view_id" ref="mmr_reccurent_lost_report_search"/>
+        </record>
+
+        <menuitem
+            id="mmr_reccurent_lost_report_menu"
+            name="Purchase Reccurent Lost"
+            parent="sales_team.menu_sale_report"
+            sequence="2"
+            action="mmr_reccurent_lost_report"/>
 
   </data>
 </openerp>

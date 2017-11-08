@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<odoo>
+	<record model="ir.cron" id="reccurent_lost_report_cron">
+        <field name="name">Check Sales Recurrent Lost</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="model" eval="'mmr.reccurent.lost.report'"/>
+        <field name="function" eval="'_cron_generate_sales_recurrent_lost_report'"/>
+        <field name="args" eval="'()'" />
+    </record>
+</odoo>

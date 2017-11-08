@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_code_p_list_user,mmr.code.p.list.user,mmr_sales_ext.model_code_p_list,base.group_user,1,1,1,1
+access_mmr_recurrent_lost_report_user,mmr.reccurent.lost.report.user,mmr_sales_ext.model_mmr_reccurent_lost_report,base.group_user,1,1,1,1
