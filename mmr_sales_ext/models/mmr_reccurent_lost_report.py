@@ -29,6 +29,6 @@ class MMRRecurrentLostReport(models.Model):
         	partner_count += 1
         	product_ids = self.env['product.product'].search([])
         	for product in product_ids:
-        		sale_order_line_id = self.env['sale.order.line'].search([('product_id', '=', product.id), ('order_partner_id', '=', partner.id), ('order_id.confirmation_date', '!=', False)], limit=1)
+        		sale_order_line_id = self.env['sale.order.line'].search([('product_id', '=', product.id), ('order_partner_id', '=', partner.id), ('order_confirmation_date', '!=', False)], order="order_confirmation_date desc", limit=1)
         		if sale_order_line_id:
         			self.create({'partner_id': sale_order_line_id.order_partner_id.id, 'product_id': sale_order_line_id.product_id.id, 'last_purchase': sale_order_line_id.order_id.confirmation_date, 'last_salesperson_user_id': sale_order_line_id.order_id.user_id and sale_order_line_id.order_id.user_id.id or False, 'last_sale_team_id': sale_order_line_id.order_id.team_id and sale_order_line_id.order_id.team_id.id or False, 'date_since_last_purchase': (fields.datetime.now()-fields.datetime.strptime(sale_order_line_id.order_id.confirmation_date, DTF)).days})

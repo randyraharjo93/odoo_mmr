@@ -22,6 +22,7 @@ class SaleOrderLine(models.Model):
     # Adding some required field
 
     mmr_code_p = fields.Boolean(string='Code P', track_visibility='onchange')
+    order_confirmation_date = fields.Datetime("Confirm Date", related="order_id.confirmation_date", store=True)
 
     # Onchange Code P
     @api.onchange('order_partner_id', 'product_id')
