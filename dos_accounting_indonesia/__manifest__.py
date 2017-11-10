@@ -9,6 +9,7 @@
     "depends": ['account', 'dos_amount_to_text_id'],
     'init_xml': [],
     'update_xml': [
+        'security/ir.model.access.csv',
         'views/faktur_pajak.xml',
         'views/invoice_inherit_view.xml',
         'wizard/generate_faktur_view.xml',

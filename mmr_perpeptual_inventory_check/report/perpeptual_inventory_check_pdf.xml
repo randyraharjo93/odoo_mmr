@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="report_mmr_perpeptual_check_document">
+        <t t-call="report.html_container">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <h2>
+                        <span>Perpeptual Check Report</span>
+                    </h2>
+                    <h4>
+                        <span>Report ini tidak 100% akurat, pergunakan hanya untuk membantu menemukan penyebab account Interim (Masuk) inventory tidak 0</span>
+                    </h4>
+                    <table class="table table-condensed" string="Stock In">
+                        <thead>
+                            <tr>
+                                <th><strong>Journal Entries</strong></th>
+                                <th><strong>Label</strong></th>
+                                <th><strong>Value</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.stock_in_account_move_line_ids" t-as="l">
+                                <td><span t-field="l.move_id.name"/></td>
+                                <td><span t-field="l.name"/></td>
+                                <td><span t-field="l.credit"/></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-right"><strong>Total: </strong></td>
+                                <td><strong><span t-field="o.stock_in_total_value"/></strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-condensed" string="Invoice In">
+                        <thead>
+                            <tr>
+                                <th><strong>Journal Entries</strong></th>
+                                <th><strong>Label</strong></th>
+                                <th><strong>Value</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.invoice_in_account_move_line_ids" t-as="l">
+                                <td><span t-field="l.move_id.name"/></td>
+                                <td><span t-field="l.name"/></td>
+                                <td><span t-field="l.credit"/></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-right"><strong>Total: </strong></td>
+                                <td><strong><span t-field="o.invoice_in_total_value"/></strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+         </t>
+    </template>
+
+    <template id="report_mmr_perpeptual_check">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="mmr_perpeptual_inventory_check.report_mmr_perpeptual_check_document"/>
+        </t>
+    </template>
+
+</odoo>

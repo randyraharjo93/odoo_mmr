@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="report_perpeptual_inventory_form" model="ir.ui.view">
+            <field name="name">report.perpeptual.inventory.form</field>
+            <field name="model">mmr.perpeptual.inventory.check</field>
+            <field name="arch" type="xml">
+            <form>
+                <span>
+                    This will generate Perpeptual Check Report
+                </span>
+                <footer>
+                    <button name="do_inventory_check" string="Generate Report" type="object" default_focus="1" class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+            </field>
+        </record>
+
+        <record id="action_report_perpeptual_inventory_wizard" model="ir.actions.act_window">
+            <field name="name">Print Perpeptual Inventory Checks</field>
+            <field name="res_model">mmr.perpeptual.inventory.check</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="report_perpeptual_inventory_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <report
+            string="Perpeptual Inventory Report"
+            id="action_report_perpeptual_inventory"
+            model="mmr.perpeptual.inventory.check"
+            report_type="qweb-pdf"
+            name="mmr_perpeptual_inventory_check.report_mmr_perpeptual_check"
+            file="mmr_perpeptual_inventory_check.report_mmr_perpeptual_check"
+        />
+
+        <menuitem name="Perpeptual Inventory Checks" action="action_report_perpeptual_inventory_wizard" id="menu_print_report_perpeptual_inventory" parent="account.account_reports_management_menu" sequence="20"/>
+    </data>
+</odoo>
