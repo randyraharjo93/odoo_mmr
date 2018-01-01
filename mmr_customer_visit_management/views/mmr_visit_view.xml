@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mmr_visit_tree" model="ir.ui.view">
+            <field name="name">mmr.visit.tree</field>
+            <field name="type">tree</field>
+            <field name="model">mmr.visit</field>
+            <field name="arch" type="xml">
+                <tree string="Customer Visits">
+                    <field name="partner_id"/>
+                    <field name="planned_date"/>
+                    <field name="visit_date"/>
+                    <field name="salesperson_user_id"/>
+                    <field name="sale_team_id"/>
+                    <field name="visit_result_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mmr_visit_form" model="ir.ui.view">
+            <field name="name">mmr.visit.form</field>
+            <field name="type">form</field>
+            <field name="model">mmr.visit</field>
+            <field name="arch" type="xml">
+                <form string="Customer Visits">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="plan,visit,report" clickable="True"/>
+                    </header>
+                    <sheet>
+                        <div>
+                            <label for="partner_id" class="oe_edit_only" string="Customer Plan"/>
+                            <h1>
+                                <field name="partner_id" options="{'no_open': True}"/>
+                                <span> Planned on </span>
+                                <field name="planned_date"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="salesperson_user_id"/>
+                                <field name="sale_team_id"/>
+                            </group>
+                            <group>
+
+                                <field name="priority" widget="priority"/>
+                                <field name="cancel_reason_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="plan" string="Plan">
+                                <separator string="Product(s)"/>
+                                <field name="product_ids" widget="many2many_kanban"/>
+                                <separator string="Description"/>
+                                <field name="plan_note"/>
+                            </page>
+                            <page name="result" string="Result">
+                                <group>
+                                    <group>
+                                        <field name="visit_date"/>
+                                    </group>
+                                    <group>
+                                        <field name="visit_result_id"/>
+                                    </group>
+                                </group>
+                                <separator string="Description"/>
+                                <field name="result_description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="mmr_visit_kanban">
+            <field name="name">mmr.visit.kanban</field>
+            <field name="model">mmr.visit</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column o_kanban_project_tasks" on_create="quick_create" default_group_by="state">
+                    <field name="partner_id"/>
+                    <field name="planned_date"/>
+                    <field name="visit_date"/>
+                    <field name="salesperson_user_id"/>
+                    <field name="sale_team_id"/>
+                    <field name="visit_result_id"/>
+                    <field name="state"/>
+                    <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="o_dropdown_kanban dropdown" groups="base.group_user">
+                                <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                    <span class="fa fa-bars fa-lg"/>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <t t-if="widget.editable"><li><a type="edit">Edit Visit</a></li></t>
+                                    <t t-if="widget.deletable"><li><a type="delete">Delete</a></li></t>
+                                </ul>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div>
+                                    <field name="tag_ids"/>
+                                </div>
+                                <div>
+                                    <strong><field name="partner_id"/></strong>
+                                </div>
+                                <div class="text-muted">
+                                    <t t-if="record.planned_date.raw_value and record.planned_date.raw_value lt (new Date())" t-set="red">oe_kanban_text_red</t>
+                                    <span t-attf-class="#{red || ''}"><i><field name="planned_date"/></i></span>
+                                </div>
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="priority" widget="priority"/>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <img t-att-src="kanban_image('res.users', 'image_small', record.salesperson_user_id.raw_value)" t-att-title="record.salesperson_user_id.value" width="24" height="24" class="oe_kanban_avatar pull-right"/>
+                                </div>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                    </templates>
+                </kanban>
+            </field>
+         </record>
+
+        <record id="mmr_visit_filter" model="ir.ui.view">
+            <field name="name">mmr.visit.filter</field>
+            <field name="model">mmr.visit</field>
+            <field name="arch" type="xml">
+                <search string="Search Visit">
+                    <field name="partner_id"/>
+                    <field name="planned_date"/>
+                    <field name="visit_date"/>
+                    <field name="salesperson_user_id"/>
+                    <field name="sale_team_id"/>
+                    <field name="visit_result_id"/>
+                    <field name="state"/>
+                    <field name="cancel_reason_id"/>
+                    <separator/>
+                    <filter string="My Visit" name="my_visit" domain="[('salesperson_user_id', '=', uid)]" help="Visit that assigned to you"/>
+                    <separator/>
+                    <filter string="To Do" name="todo" domain="[('state', '=', 'plan')]"/>
+                    <separator/>
+                    <filter string="Today Visit" name="today" domain="[('planned_date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter string="This Week Visit" name="this_week" domain="['&amp;', ('planned_date', '&gt;=', context_today().strftime('%Y-%m-%d')), ('planned_date', '&lt;=', (context_today()+datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Late Visit" name="overdue" domain="[('planned_date', '&lt;', context_today().strftime('%Y-%m-%d')), ('state', '=', 'plan')]" help="Visit you should have done "/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Salesperson" domain="[]" context="{'group_by':'salesperson_user_id'}"/>
+                        <filter string="Rayon" domain="[]" context="{'group_by':'sale_team_id'}"/>
+                        <filter string="Visit Result" domain="[]" context="{'group_by':'visit_result_id'}"/>
+                        <filter string="States" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_mmr_visit" model="ir.actions.act_window">
+            <field name="name">Visit</field>
+            <field name="res_model">mmr.visit</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="mmr_visit_filter"/>
+            <field name="context">{'search_default_my_visit':1, 'search_default_today':1,}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a Visit Plan / Report.
+              </p>
+            </field>
+        </record>
+
+        <menuitem
+            action="action_mmr_visit"
+            string="Customer Visit"
+            id="menu_action_mmr_visit"
+            parent="sales_team.menu_base_partner"
+            sequence="98"/>
+
+  </data>
+</openerp>

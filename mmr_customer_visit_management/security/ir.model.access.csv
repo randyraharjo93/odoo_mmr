@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mmr_visit_user,mmr.visit.user,mmr_customer_visit_management.model_mmr_visit,base.group_user,1,1,1,1
+access_mmr_visit_cancel_user,mmr.visit.cancel.user,mmr_customer_visit_management.model_mmr_visit_cancel,sales_team.group_sale_salesman,1,0,0,0
+access_mmr_visit_cancel_manager,mmr.visit.cancel.manager,mmr_customer_visit_management.model_mmr_visit_cancel,sales_team.group_sale_manager,1,1,1,1
+access_mmr_visit_result_user,mmr.visit.result.user,mmr_customer_visit_management.model_mmr_visit_result,sales_team.group_sale_salesman,1,0,0,0
+access_mmr_visit_result_manager,mmr.visit.result.manager,mmr_customer_visit_management.model_mmr_visit_result,sales_team.group_sale_manager,1,1,1,1
+access_mmr_visit_tag_user,mmr.visit.tag.user,mmr_customer_visit_management.model_mmr_visit_tag,sales_team.group_sale_manager,1,1,1,1
+access_mmr_visit_tag_manager,mmr.visit.tag.manager,mmr_customer_visit_management.model_mmr_visit_tag,sales_team.group_sale_manager,1,1,1,1

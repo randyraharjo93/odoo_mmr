@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="sales_team_form_view_extended">
+            <field name="name">crm.team.form</field>
+            <field name="model">crm.team</field>
+            <field name="inherit_id" ref="sales_team.crm_team_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[1]/group[2]" position="inside">
+                    <field name="parent_team"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="crm_team_salesteams_view_kanban_ext">
+            <field name="name">crm.team.kanban.ext</field>
+            <field name="model">crm.team</field>
+            <field name="inherit_id" ref="sale.crm_team_salesteams_view_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//templates" position="before">
+                    <field name="team_target"/>
+                    <field name="team_invoiced"/>
+                </xpath>
+                <xpath expr="//div[@t-if='record.invoiced_target.raw_value']" position="replace">
+                    <div t-if="record.team_target.raw_value" class="col-xs-12 o_kanban_primary_bottom" groups="sales_team.group_sale_manager">
+                        <field name="invoiced" widget="progress" title="Invoicing" options="{'current_value': 'invoiced', 'max_value': 'invoiced_target', 'editable': true, 'edit_max_value': true, 'on_change': 'update_invoiced_target'}"/>
+                        <field name="team_invoiced" widget="progress" title="Team Invoicing" options="{'current_value': 'team_invoiced', 'max_value': 'team_target'}"/>
+                    </div>
+                </xpath>
+                <xpath expr="//div[@t-if='!record.invoiced_target.raw_value']" position="attributes">
+                    <attribute name="t-if">!record.team_target.raw_value</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
