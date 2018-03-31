@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mmr_account_invoice_tree" model="ir.ui.view">
+            <field name="name">mmr.account.invoice.tree</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='partner_id']" position="after">
+                    <field name="mmr_partner_city"/>
+                </xpath>
+            </field>
+        </record>
+
+  </data>
+</openerp>

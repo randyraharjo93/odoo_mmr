@@ -12,6 +12,8 @@ class AccountInvoice(models.Model):
 
     mmr_written_amount_total = fields.Char(string='Written Amount Total')
     mmr_source_delivery_order = fields.Char(string='Source Delivery Order', compute="_get_source_delivery_order")
+    # Add city info
+    mmr_partner_city = fields.Char(string="City", related="partner_id.city", store=True)
 
     @api.one
     @api.depends('invoice_line_ids', 'invoice_line_ids.sale_line_ids')
@@ -22,7 +24,6 @@ class AccountInvoice(models.Model):
             for invoice_line in self.invoice_line_ids:
                 for sale_order_line in invoice_line.sale_line_ids:
                     picking_ids += sale_order_line.order_id.picking_ids.ids
-            print picking_ids
             set_picking_ids = list(set(picking_ids))
             for set_picking_id in set_picking_ids:
                 if mmr_source_delivery_order:

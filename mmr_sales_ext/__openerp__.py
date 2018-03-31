@@ -19,6 +19,7 @@
         'data/mmr_sales_data.xml',
         'security/ir.model.access.csv',
         'views/sale_order_view.xml',
+        'views/account_invoice.xml',
         'report/report_deliveryslip.xml',
         'report/report_invoice.xml',
         'security/sales_security.xml'
