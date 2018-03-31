@@ -15,6 +15,10 @@ class AccountInvoice(models.Model):
     # Add city info
     mmr_partner_city = fields.Char(string="City", related="partner_id.city", store=True)
 
+    def onetime(self):
+        for invoice in self.search([]):
+            invoice.mmr_partner_city = invoice.partner_id.city
+
     @api.one
     @api.depends('invoice_line_ids', 'invoice_line_ids.sale_line_ids')
     def _get_source_delivery_order(self):
@@ -35,7 +39,7 @@ class AccountInvoice(models.Model):
     @api.model
     def create(self, vals):
         rec = super(AccountInvoice, self).create(vals)
-        if rec.amount_total:
+        if self and rec.amount_total:
             def Terbilang(x):
                 satuan=["","Satu","Dua","Tiga","Empat","Lima","Enam","Tujuh", "Delapan","Sembilan","Sepuluh","Sebelas"]
                 n = int(x)
@@ -64,7 +68,7 @@ class AccountInvoice(models.Model):
     @api.multi
     def write(self, vals):
         result = super(AccountInvoice, self).write(vals)
-        if 'mmr_written_amount_total' not in vals:
+        if self and 'mmr_written_amount_total' not in vals:
             def Terbilang(x):
                 satuan=["","Satu","Dua","Tiga","Empat","Lima","Enam","Tujuh", "Delapan","Sembilan","Sepuluh","Sebelas"]
                 n = int(x)
