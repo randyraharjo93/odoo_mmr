@@ -9,9 +9,8 @@
             <field name="model">product.template</field>
             <field name="arch" type="xml">
                 <!-- Add MCM UOM -->
-                <!-- As we may be not needed this anymore, make it invisible -->
                 <xpath expr="//field[@name='uom_po_id']" position="after">
-                    <field name="mmr_UOM" invisible="1"/>
+                    <field name="mmr_UOM"/>
                 </xpath>
             </field>
         </record>
