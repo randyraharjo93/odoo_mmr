@@ -49,3 +49,13 @@ class SaleOrder(models.Model):
                     if unit_price_final < order_line.product_id.lst_price:
                         raise UserError(_("Price of Product :" + order_line.product_id.display_name + " is lower than the minimum sale price. Please contact manager to confirm the sale."))
         return res
+
+    @api.model
+    def create(self, vals):
+        result = super(SaleOrder, self).create(vals)
+        # MMR Special Split based on sequence suffix
+        if result.name.split('|'):
+            name_split = result.name.split('|')
+            middle_name = "/" + (result.company_id.partner_id.ref or "") + "/" + (result.user_id.partner_id.ref or "") + "/" + (result.team_id.name or "") + "/"
+            result.name = name_split[0] + middle_name + name_split[1]
+        return result

@@ -39,3 +39,13 @@ class PurchaseOrder(models.Model):
                 if not message_id.tracking_value_ids:
                     message_ids.append(message_id.id)
             self.filtered_message_ids = [(6, 0, message_ids)]
+
+    @api.model
+    def create(self, vals):
+        result = super(PurchaseOrder, self).create(vals)
+        # MMR Special Split based on sequence suffix
+        if result.name.split('|'):
+            name_split = result.name.split('|')
+            middle_name = "/" + (result.company_id.partner_id.ref or "") + "/" + (result.user_id.partner_id.ref or "") + "/" + (result.team_id.name or "") + "/"
+            result.name = name_split[0] + middle_name + name_split[1]
+        return result
