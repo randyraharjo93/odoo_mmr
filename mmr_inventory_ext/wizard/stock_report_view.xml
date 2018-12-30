@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="stock_report_form_view" model="ir.ui.view">
+            <field name="name">Stock Report</field>
+            <field name="model">stock.report</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Stock Report">
+                	<group string="Stock Report">
+                        <group>
+                            <field name="product_id"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+					</group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_stock_report" model="ir.actions.act_window">
+            <field name="name">Stock Report</field>
+            <field name="res_model">stock.report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock_report_form_view"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_stock_report" name="Stock Report" action="action_stock_report" parent="stock.menu_warehouse_report"/>
+    </data>
+</odoo>

@@ -21,7 +21,7 @@ class PurchaseOrder(models.Model):
         for po in self:
             name = po.name
             if po.partner_ref:
-                name += ' ('+po.partner_ref+')'
+                name += ' (' + po.partner_ref + ')'
             # Don't show Price for normal purchase user
             if po.amount_total and self.user_has_groups("purchase.group_purchase_manager"):
                 name += ': ' + formatLang(self.env, po.amount_total, currency_obj=po.currency_id)
@@ -43,9 +43,7 @@ class PurchaseOrder(models.Model):
     @api.model
     def create(self, vals):
         result = super(PurchaseOrder, self).create(vals)
-        # MMR Special Split based on sequence suffix
-        if result.name.split('|'):
-            name_split = result.name.split('|')
-            middle_name = "/" + (result.company_id.partner_id.ref or "") + "/" + (result.user_id.partner_id.ref or "") + "/" + (result.team_id.name or "") + "/"
-            result.name = name_split[0] + middle_name + name_split[1]
+        # MMR Special Prefix
+        prefix_name = (result.company_id.partner_id.ref or "") + "/" + (result.partner_id.ref or "") + "/"
+        result.name = prefix_name + result.name
         return result

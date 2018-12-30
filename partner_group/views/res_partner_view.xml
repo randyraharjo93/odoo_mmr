@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_res_partner_form_group" model="ir.ui.view">
+            <field name="name">res.partner.form.group</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='category_id']" position="after">
+                        <field name="partner_group_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="Groups..."/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="view_res_partner_group_form" model="ir.ui.view">
+            <field name="name">res.partner.group.form</field>
+            <field name="model">res.partner.group</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name"/>
+                        <field name="color" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Partners" name="partner">
+                            <field name="partner_ids"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_res_partner_group_tree" model="ir.ui.view">
+            <field name="name">res.partner.tree.group</field>
+            <field name="model">res.partner.group</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="res_partner_group_view_action">
+            <field name="name">Partner Group</field>
+            <field name="res_model">res.partner.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+        </record>
+
+        <menuitem
+            name="Partner's Group"
+            parent="contacts.res_partner_menu_config"
+            action="res_partner_group_view_action"
+            id="menu_action_res_partner_group"
+            sequence="19"/>
+
+    </data>
+</odoo>

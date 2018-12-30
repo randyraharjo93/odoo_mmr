@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="indirim_sale_history_view_order_form" model="ir.ui.view">
+            <field name="name">indirim.sale.history.view.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <!-- Add history Function -->
+                    <xpath expr="//field[@name='order_line']/form" position="inside">
+                        <div>
+                            <label for="sale_order_line_history_ids" invisible="1"/>
+                            <field name="sale_order_line_history_ids" readonly="1">
+                                <tree>
+                                    <field name="date_order" string="Order Date"/>
+                                    <field name="order_id"/>
+                                    <field name="order_partner_id"/>
+                                    <field name="salesman_id"/>
+                                    <field name="product_id" invisible="1" force_save="1" context="{'quantity':product_uom_qty, 'uom':product_uom}"/>
+                                    <field name="layout_category_id" groups="sale.group_sale_layout" invisible="1"/>
+                                    <field name="name" invisible="1"/>
+                                    <field name="product_uom_qty" string="Ordered Qty" context="{'quantity':product_uom_qty, 'uom':product_uom}"/>
+                                    <field name="qty_delivered" invisible="1"/>
+                                    <field name="qty_invoiced" invisible="1"/>
+                                    <field name="qty_to_invoice" invisible="1"/>
+                                    <field name="product_uom" attrs="{'readonly': [('state', 'in', ('sale','done', 'cancel'))]}" groups="product.group_uom" options="{&quot;no_open&quot;: True}"/>
+                                    <field name="analytic_tag_ids" groups="analytic.group_analytic_accounting" widget="many2many_tags" options="{'color_field': 'color'}" invisible="1"/>
+                                    <field name="price_unit" attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
+                                    <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
+                                    <field name="discount" groups="sale.group_discount_per_so_line"/>
+                                    <field name="price_subtotal" widget="monetary" groups="sale.group_show_price_subtotal"/>
+                                    <field name="price_total" widget="monetary" groups="sale.group_show_price_total"/>
+                                    <field name="qty_delivered_updateable" invisible="1"/>
+                                    <field name="state" invisible="0"/>
+                                    <field name="invoice_status" invisible="1"/>
+                                    <field name="customer_lead" invisible="1"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </div>
+                    </xpath>
+                    <!-- Make Tree not editable bottom -->
+                    <xpath expr="//field[@name='order_line']/tree" position="attributes">
+                        <attribute name="editable"></attribute>
+                    </xpath>
+
+                </data>
+            </field>
+        </record>
+
+    </data>
+</odoo>

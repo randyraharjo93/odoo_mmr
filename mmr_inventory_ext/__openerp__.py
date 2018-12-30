@@ -14,6 +14,7 @@
     'init_xml': [],
     'update_xml': [
         'views/stock_move_views.xml',
+        'wizard/stock_report_view.xml',
     ],
     'css': [],
     'js': [],
