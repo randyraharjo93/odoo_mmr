@@ -36,12 +36,22 @@ class stock_report(models.TransientModel):
         Move = self.env['stock.move']
 
         print("LEARN------------------------")
-        print(domain_move_in)
-        print(Move.search(domain_move_in))
-        # print(domain_move_out)
-        # print(Move.search(domain_move_out))
-        print([move.quant_ids.ids for move in Move.search(domain_move_in)])
 
+        move_in_ids = Move.search(domain_move_in)
+        move_out_ids = Move.search(domain_move_out)
+        report_line_ids = []
+
+        combined_sorted_move_ids = sorted((move_in_ids + move_out_ids).read(['date']), key=lambda k: k['date'])
+        total_uom_qty = 0
+        for move in combined_sorted_move_ids:
+            move_id = Move.browse(move['id'])
+            if move_id in move_in_ids:
+                total_uom_qty += move_id.product_uom_qty
+                report_line_ids.append((0, 0, {'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'date': move_id.date, 'in_qty': move_id.product_uom_qty, 'product_lot_id': move_id.restrict_lot_id, 'total_qty': total_uom_qty}))
+            elif move_id in move_out_ids:
+                total_uom_qty -= move_id.product_uom_qty
+                report_line_ids.append((0, 0, {'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'date': move_id.date, 'out_qty': move_id.product_uom_qty, 'product_lot_id': move_id.restrict_lot_id, 'total_qty': total_uom_qty}))
+        self.stock_report_line_ids = report_line_ids
         return True
 
 
@@ -51,11 +61,10 @@ class stock_report_line(models.TransientModel):
 
     stock_report_id = fields.Many2one("stock.report", "Stock Report")
     source = fields.Char("Source")
-    date = fields.Date("Date")
-    product_id = fields.Many2one("product.product", "Product")
+    date = fields.Datetime("Date")
     product_uom_id = fields.Many2one('product.uom', 'Unit of Measure')
     product_lot_id = fields.Many2one('stock.production.lot', 'LOT / SN')
-    in_qty = fields.Float('Quantity', default=1.0, digits=dp.get_precision('Product Unit of Measure'))
-    out_qty = fields.Float('Quantity', default=1.0, digits=dp.get_precision('Product Unit of Measure'))
-    total_qty_lot = fields.Float('Quantity', default=1.0, digits=dp.get_precision('Product Unit of Measure'))
-    total_qty = fields.Float('Quantity', default=1.0, digits=dp.get_precision('Product Unit of Measure'))
+    in_qty = fields.Float('In', default=1.0, digits=dp.get_precision('Product Unit of Measure'))
+    out_qty = fields.Float('Out', default=1.0, digits=dp.get_precision('Product Unit of Measure'))
+    total_qty_lot = fields.Float('LOT / SN Total', default=1.0, digits=dp.get_precision('Product Unit of Measure'))
+    total_qty = fields.Float('Total', default=1.0, digits=dp.get_precision('Product Unit of Measure'))
