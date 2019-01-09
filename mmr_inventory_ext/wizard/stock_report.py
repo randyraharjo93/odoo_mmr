@@ -35,22 +35,33 @@ class stock_report(models.TransientModel):
 
         Move = self.env['stock.move']
 
-        print("LEARN------------------------")
-
         move_in_ids = Move.search(domain_move_in)
         move_out_ids = Move.search(domain_move_out)
         report_line_ids = []
 
         combined_sorted_move_ids = sorted((move_in_ids + move_out_ids).read(['date']), key=lambda k: k['date'])
         total_uom_qty = 0
+        total_value = 0
         for move in combined_sorted_move_ids:
             move_id = Move.browse(move['id'])
             if move_id in move_in_ids:
                 total_uom_qty += move_id.product_uom_qty
-                report_line_ids.append((0, 0, {'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'date': move_id.date, 'in_qty': move_id.product_uom_qty, 'product_lot_id': move_id.restrict_lot_id, 'total_qty': total_uom_qty}))
+                total_value += move_id.price_unit * move_id.product_uom_qty
+                if move_id.linked_move_operation_ids:
+                    for linked_move_operation_id in move_id.linked_move_operation_ids:
+                        for pack_lot_id in linked_move_operation_id.operation_id.pack_lot_ids:
+                            report_line_ids.append((0, 0, {'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'in_qty': pack_lot_id.qty, 'product_lot_id': pack_lot_id.lot_id, 'total_qty': total_uom_qty, 'value': move_id.price_unit * pack_lot_id.qty, 'total_value': total_value}))
+                else:
+                    report_line_ids.append((0, 0, {'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'in_qty': move_id.product_uom_qty, 'product_lot_id': move_id.lot_ids[0], 'total_qty': total_uom_qty, 'value': move_id.price_unit * move_id.product_uom_qty, 'total_value': total_value}))
             elif move_id in move_out_ids:
                 total_uom_qty -= move_id.product_uom_qty
-                report_line_ids.append((0, 0, {'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'date': move_id.date, 'out_qty': move_id.product_uom_qty, 'product_lot_id': move_id.restrict_lot_id, 'total_qty': total_uom_qty}))
+                total_value -= move_id.price_unit * move_id.product_uom_qty
+                if move_id.linked_move_operation_ids:
+                    for linked_move_operation_id in move_id.linked_move_operation_ids:
+                        for pack_lot_id in linked_move_operation_id.operation_id.pack_lot_ids:
+                            report_line_ids.append((0, 0, {'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'out_qty': pack_lot_id.qty, 'product_lot_id': pack_lot_id.lot_id, 'total_qty': total_uom_qty, 'value': move_id.price_unit * pack_lot_id.qty, 'total_value': total_value}))
+                else:
+                    report_line_ids.append((0, 0, {'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'out_qty': move_id.product_uom_qty, 'product_lot_id': move_id.lot_ids[0], 'total_qty': total_uom_qty, 'value': move_id.price_unit * move_id.product_uom_qty, 'total_value': total_value}))
         self.stock_report_line_ids = report_line_ids
         return True
 
@@ -67,4 +78,6 @@ class stock_report_line(models.TransientModel):
     in_qty = fields.Float('In', default=1.0, digits=dp.get_precision('Product Unit of Measure'))
     out_qty = fields.Float('Out', default=1.0, digits=dp.get_precision('Product Unit of Measure'))
     total_qty_lot = fields.Float('LOT / SN Total', default=1.0, digits=dp.get_precision('Product Unit of Measure'))
-    total_qty = fields.Float('Total', default=1.0, digits=dp.get_precision('Product Unit of Measure'))
+    total_qty = fields.Float('Total Qty', default=1.0, digits=dp.get_precision('Product Unit of Measure'))
+    value = fields.Float("Value")
+    total_value = fields.Float("Total Value")

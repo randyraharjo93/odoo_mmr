@@ -25,6 +25,8 @@
                             <field name="in_qty"/>
                             <field name="out_qty"/>
                             <field name="total_qty"/>
+                            <field name="value"/>
+                            <field name="total_value"/>
                         </tree>
                     </field>
                 </form>
