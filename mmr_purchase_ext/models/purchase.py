@@ -44,6 +44,10 @@ class PurchaseOrder(models.Model):
     def create(self, vals):
         result = super(PurchaseOrder, self).create(vals)
         # MMR Special Prefix
-        prefix_name = (result.company_id.partner_id.ref or "") + "/" + (result.partner_id.ref or "") + "/"
-        result.name = prefix_name + result.name
+        # How to:
+        # Put prefix "|%(year)s/%(month)s/%(day)s/"
+        if len(result.name.split('|')) > 1:
+            name_without_split = result.name.replace("|", "")
+            prefix_name = (result.company_id.partner_id.ref or "") + "/" + (result.partner_id.ref or "") + "/"
+            result.name = prefix_name + name_without_split
         return result

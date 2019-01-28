@@ -54,6 +54,9 @@ class SaleOrder(models.Model):
     def create(self, vals):
         result = super(SaleOrder, self).create(vals)
         # MMR Special Split based on sequence suffix
+        # How to:
+        # Put the Prefix "PO"
+        # Put the suffix "|%(month)s/%(year)s"
         if len(result.name.split('|')) > 1:
             name_split = result.name.split('|')
             middle_name = "/" + (result.company_id.partner_id.ref or "") + "/" + (result.user_id.partner_id.ref or "") + "/" + (result.team_id.name or "") + "/"

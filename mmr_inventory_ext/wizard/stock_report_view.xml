@@ -7,31 +7,31 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Stock Report">
-                	<group string="Stock Report">
-                        <group>
+                    <sheet>
+                    	<group string="Stock Report">
                             <field name="product_id"/>
-                        </group>
-                        <group>
-                            <field name="date_start"/>
-                            <field name="date_end"/>
-                        </group>
-					</group>
-                    <field name="stock_report_line_ids" readonly="1">
-                        <tree default_order="date desc">
-                            <field name="source"/>
-                            <field name="date"/>
-                            <field name="product_uom_id"/>
-                            <field name="product_lot_id"/>
-                            <field name="in_qty"/>
-                            <field name="out_qty"/>
-                            <field name="total_qty"/>
-                            <field name="value"/>
-                            <field name="total_value"/>
-                        </tree>
-                    </field>
+                            <label for="date_start" string="Date"/>
+                            <div>
+                                <field name="date_start" class="oe_inline"/>
+                                <label string="—" class="oe_inline"/>
+                                <field name="date_end" class="oe_inline"/>
+                            </div>
+    					</group>
+                        <field name="stock_report_line_ids" readonly="1">
+                            <tree default_order="date desc">
+                                <field name="source"/>
+                                <field name="date"/>
+                                <field name="product_uom_id"/>
+                                <field name="product_lot_id"/>
+                                <field name="in_qty"/>
+                                <field name="out_qty"/>
+                                <field name="total_qty"/>
+                                <field name="value"/>
+                                <field name="total_value"/>
+                            </tree>
+                        </field>
+                    </sheet>
                 </form>
-                <footer>
-                </footer>
             </field>
         </record>
 
