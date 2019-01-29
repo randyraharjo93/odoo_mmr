@@ -13,6 +13,7 @@
     'init_xml': [],
     'update_xml': [
         'security/ir.model.access.csv',
+        'security/visit_security.xml',
         'views/mmr_visit_view.xml',
     ],
     'css': [],
