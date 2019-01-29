@@ -11,6 +11,9 @@ class Picking(models.Model):
     def create(self, vals):
         result = super(Picking, self).create(vals)
         # MMR Special Split based on sequence suffix
+        # How to
+        # Prefix "SJ"
+        # Suffix "|%(month)s/%(year)s   "
         if len(result.name.split('|')) > 1:
             name_split = result.name.split('|')
             so_id = self.env['sale.order'].search([('name', '=', result.origin)])
