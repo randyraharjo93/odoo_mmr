@@ -2,6 +2,39 @@
 <openerp>
     <data>
 
+        <record id="mmr_visit_cancel_tree" model="ir.ui.view">
+            <field name="name">mmr.visit.cancel.tree</field>
+            <field name="type">tree</field>
+            <field name="model">mmr.visit.cancel</field>
+            <field name="arch" type="xml">
+                <tree string="Customer Visits Cancel" editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mmr_visit_result_tree" model="ir.ui.view">
+            <field name="name">mmr.visit.result.tree</field>
+            <field name="type">tree</field>
+            <field name="model">mmr.visit.result</field>
+            <field name="arch" type="xml">
+                <tree string="Customer Visits Result" editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mmr_visit_tag_tree" model="ir.ui.view">
+            <field name="name">mmr.visit.tag.tree</field>
+            <field name="type">tree</field>
+            <field name="model">mmr.visit.tag</field>
+            <field name="arch" type="xml">
+                <tree string="Customer Visits Tag" editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="mmr_visit_tree" model="ir.ui.view">
             <field name="name">mmr.visit.tree</field>
             <field name="type">tree</field>
@@ -26,15 +59,18 @@
             <field name="arch" type="xml">
                 <form string="Customer Visits">
                     <header>
+                        <button name="button_cancel_wizard" type="object" string="Cancel Visit" states="plan,visit,report"/>
+                        <button name="button_draft" type="object" string="Set to Plan" states="cancel" class="oe_highlight"/>
                         <field name="state" widget="statusbar" statusbar_visible="plan,visit,report" clickable="True"/>
                     </header>
                     <sheet>
                         <div>
                             <label for="partner_id" class="oe_edit_only" string="Customer Plan"/>
                             <h1>
-                                <field name="partner_id" options="{'no_open': True}"/>
+                                <span> With </span>
+                                <field name="partner_id" options="{'no_open': True}" placeholder="Customer"/>
                                 <span> Planned on </span>
-                                <field name="planned_date"/>
+                                <field name="planned_date" placeholder="Date"/>
                             </h1>
                         </div>
                         <group>
@@ -46,6 +82,8 @@
 
                                 <field name="priority" widget="priority"/>
                                 <field name="cancel_reason_id" readonly="1"/>
+                                <field name="tag_ids" widget="many2many_tags" placeholder="Tags" options="{'no_create_edit': True}"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
                             </group>
                         </group>
                         <notebook>
@@ -69,6 +107,10 @@
                             </page>
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>
@@ -170,11 +212,78 @@
             </field>
         </record>
 
+        <record id="action_mmr_visit_cancel" model="ir.actions.act_window">
+            <field name="name">Visit Cancel</field>
+            <field name="res_model">mmr.visit.cancel</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a Visit Cancel.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_mmr_visit_result" model="ir.actions.act_window">
+            <field name="name">Visit Result</field>
+            <field name="res_model">mmr.visit.result</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a Visit Result.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_mmr_visit_tag" model="ir.actions.act_window">
+            <field name="name">Visit Tag</field>
+            <field name="res_model">mmr.visit.tag</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a Visit Tag.
+              </p>
+            </field>
+        </record>
+
+        <menuitem
+            id="menu_visit_root"
+            name="Visit Management"
+            load_xmlid="True"
+            groups="group_mmr_visit_user"
+            web_icon="mmr_customer_visit_management,static/description/icon.png"
+            sequence="20"/>
         <menuitem
             action="action_mmr_visit"
             string="Customer Visit"
             id="menu_action_mmr_visit"
-            parent="sales_team.menu_base_partner"
+            parent="menu_visit_root"
+            sequence="98"/>
+        <menuitem
+            name="Configuration"
+            id="menu_action_mmr_visit_configuration"
+            parent="menu_visit_root"
+            groups="group_mmr_visit_admin"
+            sequence="99"/>
+        <menuitem
+            action="action_mmr_visit_cancel"
+            string="Customer Visit"
+            id="menu_action_mmr_visit_cancel"
+            parent="menu_action_mmr_visit_configuration"
+            sequence="98"/>
+        <menuitem
+            action="action_mmr_visit_result"
+            string="Customer Visit Result"
+            id="menu_action_mmr_visit_result"
+            parent="menu_action_mmr_visit_configuration"
+            sequence="98"/>
+        <menuitem
+            action="action_mmr_visit_tag"
+            string="Customer Visit Tag"
+            id="menu_action_mmr_visit_tag"
+            parent="menu_action_mmr_visit_configuration"
             sequence="98"/>
 
   </data>

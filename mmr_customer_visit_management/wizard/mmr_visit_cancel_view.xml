@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mmr_visit_cancel_wizard" model="ir.ui.view">
+            <field name="name">mmr.visit.cancel.wizard</field>
+            <field name="type">form</field>
+            <field name="model">mmr.visit.management.cancel.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Customer Visits Cancel">
+                    <group>
+                        <field name="cancel_reason_id"/>
+                    </group>
+                    <footer>
+                        <button string='Confirm' name="do_cancel" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+  </data>
+</openerp>

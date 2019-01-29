@@ -15,6 +15,7 @@
         'security/ir.model.access.csv',
         'security/visit_security.xml',
         'views/mmr_visit_view.xml',
+        'wizard/mmr_visit_cancel_view.xml'
     ],
     'css': [],
     'js': [],
