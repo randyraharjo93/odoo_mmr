@@ -10,7 +10,8 @@
     "depends": [
         'base',
         'purchase',
-        'account'
+        'account',
+        'mmr_purchase_history'
         ],
     'init_xml': [],
     'update_xml': [

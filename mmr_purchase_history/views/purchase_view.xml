@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                 <data>
                     <!-- Add history Function -->
-                    <xpath expr="//field[@name='order_line']/form//notebook/page[1]" position="before">
+                    <xpath expr="//field[@name='order_line']/form//notebook" position="inside">
                         <page string="History" name="history">
                             <field name="purchase_order_line_history_ids" readonly="1"/>
                         </page>
