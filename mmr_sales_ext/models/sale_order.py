@@ -62,3 +62,14 @@ class SaleOrder(models.Model):
             middle_name = "/" + (result.company_id.partner_id.ref or "") + "/" + (result.user_id.partner_id.ref or "") + "/" + (result.team_id.name or "") + "/"
             result.name = name_split[0] + middle_name + name_split[1]
         return result
+
+    @api.multi
+    def write(self, vals):
+        result = super(SaleOrder, self).write(vals)
+        # MMR Special Split based on sequence suffix
+        if ('company_id' in vals or 'user_id' in vals or 'team_id' in vals) and self.name and len(self.name.split('/')) == 6:
+            name_split = self.name.split('/')
+            middle_name = "/" + (self.company_id.partner_id.ref or "") + "/" + (self.user_id.partner_id.ref or "") + "/" + (self.team_id.name or "") + "/"
+            name = name_split[0] + middle_name + name_split[4] + "/" + name_split[5]
+            self.write({'name': name})
+        return result

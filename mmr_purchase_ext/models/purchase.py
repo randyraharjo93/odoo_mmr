@@ -51,3 +51,15 @@ class PurchaseOrder(models.Model):
             prefix_name = (result.company_id.partner_id.ref or "") + "/" + (result.partner_id.ref or "") + "/"
             result.name = prefix_name + name_without_split
         return result
+
+    @api.multi
+    def write(self, vals):
+        result = super(PurchaseOrder, self).write(vals)
+        # MMR Special Prefix
+        # How to:
+        # Put prefix "|%(year)s/%(month)s/%(day)s/"
+        if ('company_id' in vals or 'partner_id' in vals) and self.name and len(self.name.split('/')) == 6:
+            name_split = self.name.split('/')
+            prefix_name = (self.company_id.partner_id.ref or "") + "/" + (self.partner_id.ref or "") + "/"
+            self.name = prefix_name + name_split[2] + "/" + name_split[3] + "/" + name_split[4] + "/" + name_split[5]
+        return result
