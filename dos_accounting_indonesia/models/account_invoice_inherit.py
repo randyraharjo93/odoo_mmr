@@ -6,7 +6,7 @@ from odoo import api, fields, models, _
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-    nomor_faktur_pajak = fields.Char(string='Nomor Faktur Pajak', size=16)
+    nomor_faktur_pajak = fields.Char(string='Nomor Faktur Pajak', size=19)
     faktur_pajak = fields.Many2one('faktur.pajak', string="Faktur Pajak", domain=[('state', '=', '0')])
 
     @api.multi
