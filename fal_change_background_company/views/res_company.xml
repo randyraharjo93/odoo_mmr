@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<odoo>
+    <record model="ir.ui.view" id="view_company_form_inherit">
+        <field name="name">background.image.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="background_image" filename="background_image_fname"/>
+                <field name="background_image_fname" invisible="1"/>
+                <field name="navbar_image" filename="navbar_image_fname"/>
+                <field name="navbar_image_fname" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

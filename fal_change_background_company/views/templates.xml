@@ -1,0 +1,9 @@
+<odoo>
+    <template id="change_background_assets_backend" name="change_background_assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/fal_change_background_company/static/src/js/fal_change_background.js"/>
+        </xpath>
+    </template>
+
+
+</odoo>
