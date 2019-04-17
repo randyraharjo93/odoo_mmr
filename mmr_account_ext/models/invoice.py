@@ -13,7 +13,7 @@ class AccountInvoice(models.Model):
     def action_invoice_open(self):
         result = super(AccountInvoice, self).action_invoice_open()
         # MMR Special Split based on sequence suffix
-        #How to do this
+        # How to
         # Prefix "F"
         # Suffix "|%(month)s/%(year)s   "
         if len(self.number.split('|')) > 1:
