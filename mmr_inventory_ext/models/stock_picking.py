@@ -23,5 +23,5 @@ class Picking(models.Model):
             else:
                 if result.origin.split("/", 1):
                     last_name = result.origin.split("/", 1)
-                    result.name = name_split[0] + last_name
+                    result.name = name_split[0] + last_name[0]
         return result
