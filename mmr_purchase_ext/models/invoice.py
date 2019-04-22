@@ -18,6 +18,6 @@ class AccountInvoice(models.Model):
         if self.message_ids:
             message_ids = []
             for message_id in self.message_ids:
-                if not message_id.tracking_value_ids:
+                if not message_id.sudo().tracking_value_ids:
                     message_ids.append(message_id.id)
-            self.filtered_message_ids = [(6, 0, message_ids)]
+            self.sudo().filtered_message_ids = [(6, 0, message_ids)]
