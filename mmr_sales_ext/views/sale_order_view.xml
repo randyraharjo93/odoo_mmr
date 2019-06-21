@@ -8,6 +8,11 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="model">sale.order</field>
             <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_title']" position="after">
+                    <h4>
+                        <field name="mmr_internal_code" readonly="1"/>
+                    </h4>
+                </xpath>
                 <xpath expr="//form/sheet/notebook/page[1]/field[@name='order_line']/tree/field[@name='product_id']" position="before">
                     <field name="mmr_code_p"/>
                 </xpath>
@@ -16,6 +21,45 @@
                 </xpath>
                 <xpath expr="//form/sheet/notebook/page[2]/group/group[1]" position="inside">
                     <field name="mmr_fee" group="account.group_account_invoice"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mmr_view_quotation_tree" model="ir.ui.view">
+            <field name="name">mmr.view.quotation.tree</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="mmr_internal_code"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mmr_view_order_tree" model="ir.ui.view">
+            <field name="name">mmr.view.order.tree</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="mmr_internal_code"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mmr_view_sales_order_filter" model="ir.ui.view">
+            <field name="name">mmr.view.sales.order.filter</field>
+            <field name="type">search</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="mmr_internal_code"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="filter_domain">['|',('name','ilike',self),('client_order_ref','ilike',self),('mmr_internal_code','ilike',self)]</attribute>
                 </xpath>
             </field>
         </record>

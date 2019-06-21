@@ -38,6 +38,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     mmr_fee = fields.Monetary("Fee", track_visibility='onchange')
+    mmr_internal_code = fields.Char("Internal Code")
 
     @api.multi
     def action_confirm(self):
@@ -52,24 +53,26 @@ class SaleOrder(models.Model):
 
     @api.model
     def create(self, vals):
-        result = super(SaleOrder, self).create(vals)
-        # MMR Special Split based on sequence suffix
-        # How to:
-        # Put the Prefix "PO"
-        # Put the suffix "|%(month)s/%(year)s"
-        if len(result.name.split('|')) > 1:
-            name_split = result.name.split('|')
-            middle_name = "/" + (result.company_id.partner_id.ref or "") + "/" + (result.user_id.partner_id.ref or "") + "/" + (result.team_id.name or "") + "/"
-            result.name = name_split[0] + middle_name + name_split[1]
-        return result
+        # Construct MMR Internal Code
+        if 'company_id' in vals:
+            code_number = self.env['ir.sequence'].with_context(force_company=vals['company_id']).next_by_code('mmr.sale.sequence') or _('New')
+            company_ref = self.env['res.company'].browse(vals['company_id']).partner_id.ref or "-"
+        else:
+            code_number = self.env['ir.sequence'].next_by_code('mmr.sale.sequence') or _('New')
+            company_ref = "-"
+        if 'user_id' in vals:
+            salesperson_ref = self.env['res.users'].browse(vals['user_id']).partner_id.ref or "-"
+        else:
+            salesperson_ref = "-"
+        if 'team_id' in vals:
+            team_ref = self.env['crm.team'].browse(vals['team_id']).name or "-"
+        else:
+            team_ref = "-"
+        if 'date_order' in vals:
+            date_format = vals['date_order'][5:7] + "/" + vals['date_order'][0:4]
+        else:
+            date_format = "-"
+        vals['mmr_internal_code'] = code_number + "/" + company_ref + "/" + salesperson_ref + "/" + team_ref + "/" + date_format
 
-    @api.multi
-    def write(self, vals):
-        result = super(SaleOrder, self).write(vals)
-        # MMR Special Split based on sequence suffix
-        if ('company_id' in vals or 'user_id' in vals or 'team_id' in vals) and self.name and len(self.name.split('/')) == 6:
-            name_split = self.name.split('/')
-            middle_name = "/" + (self.company_id.partner_id.ref or "") + "/" + (self.user_id.partner_id.ref or "") + "/" + (self.team_id.name or "") + "/"
-            name = name_split[0] + middle_name + name_split[4] + "/" + name_split[5]
-            self.write({'name': name})
+        result = super(SaleOrder, self).create(vals)
         return result

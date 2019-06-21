@@ -13,6 +13,7 @@
         'stock',
         'account',
         'mmr_description_UoM',
+        'crm'
         ],
     'init_xml': [],
     'update_xml': [
