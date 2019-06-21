@@ -22,6 +22,6 @@ class Picking(models.Model):
                 self.mmr_internal_code = "DO" + so_mmr_internal_code
         else:
             if self.company_id:
-                self.mmr_internal_code = self.env['ir.sequence'].with_context(force_company=self.company_id).next_by_code('mmr.inventory.no.so.sequence') or _('New')
+                self.mmr_internal_code = self.env['ir.sequence'].with_context(force_company=self.company_id.id).next_by_code('mmr.inventory.no.so.sequence') or _('New')
             else:
-                self.mmr_internal_code = self.env['ir.sequence'].next_by_code('mmr.sale.sequence') or _('New')
+                self.mmr_internal_code = self.env['ir.sequence'].next_by_code('mmr.inventory.no.so.sequence') or _('New')

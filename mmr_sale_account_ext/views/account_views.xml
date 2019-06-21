@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mmr_account_invoice_form" model="ir.ui.view">
+            <field name="name">mmr.account.invoice.form</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <xpath expr="//h1[@class='mt0']" position="after">
+                    <h4 class="mt0">
+                        <field name="mmr_internal_code"/>
+                    </h4>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mmr_invoice_tree" model="ir.ui.view">
+            <field name="name">mmr.account.invoice.tree</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='number']" position="after">
+                    <field name="mmr_internal_code"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mmr_view_account_invoice_filter" model="ir.ui.view">
+            <field name="name">mmr.account.invoice.select</field>
+            <field name="type">search</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="model">account.invoice</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='number']" position="after">
+                    <field name="mmr_internal_code"/>
+                </xpath>
+                <xpath expr="//field[@name='number']" position="attributes">
+                    <attribute name="filter_domain">['|','|','|','|', ('number','ilike',self), ('origin','ilike',self), ('reference', 'ilike', self), ('partner_id', 'child_of', self), ('mmr_internal_code', 'ilike', self)]</attribute>
+                </xpath>
+            </field>
+        </record>
+
+  </data>
+</openerp>
