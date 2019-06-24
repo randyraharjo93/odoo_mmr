@@ -2,14 +2,12 @@
 <odoo>
     <data>
         <template id="report_delivery_document_mmr" inherit_id="stock.report_delivery_document">
+            <xpath expr="//div[@name='customer_address']/div[1]" position="attributes">
+                <attribute name="class">text-right</attribute>
+            </xpath>
+            
             <xpath expr="//div[@name='customer_address']/div[1]" position="before">
-                 <div class="col-xs-6 pull-left">
-                    <div>
-                        <span><strong> Surat Jalan: </strong></span>
-                        <span t-field="o.name"/>
-                        <span> - Date: </span>
-                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
-                    </div>
+                <div class="col-xs-4 text-center">
                     <table class="table table-condensed">
                         <thead>
                             <tr>
@@ -35,6 +33,17 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="col-xs-4 text-center">
+                    <div>
+                        <span><strong>Surat Jalan</strong></span>
+                    </div>
+                    <div>
+                        <span t-field="o.mmr_internal_code"/>
+                    </div>
+                    <div>
+                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
+                    </div>
                 </div>
             </xpath>
 
@@ -88,6 +97,8 @@
                         <li><span class="page"/></li>
                         <li>/</li>
                         <li><span class="topage"/></li>
+                        <li>System Ref:</li>
+                        <li><span t-field="o.name"/></li>
                     </ul>
                 </div>
             </xpath>

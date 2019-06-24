@@ -14,6 +14,7 @@ class AccountInvoice(models.Model):
     mmr_source_delivery_order = fields.Char(string='Source Delivery Order', compute="_get_source_delivery_order")
     # Add city info
     mmr_partner_city = fields.Char(string="City", related="partner_id.city", store=True)
+    mmr_source_sales_order = fields.Char(string="Source Sales Order", compute="_get_source_sale_order")
 
     def onetime(self):
         for invoice in self.search([]):
@@ -31,10 +32,27 @@ class AccountInvoice(models.Model):
             set_picking_ids = list(set(picking_ids))
             for set_picking_id in set_picking_ids:
                 if mmr_source_delivery_order:
-                    mmr_source_delivery_order += self.env['stock.picking'].browse(set_picking_id).name + " "
+                    mmr_source_delivery_order += self.env['stock.picking'].browse(set_picking_id).mmr_internal_code + " "
                 else:
-                    mmr_source_delivery_order = self.env['stock.picking'].browse(set_picking_id).name + " "
+                    mmr_source_delivery_order = self.env['stock.picking'].browse(set_picking_id).mmr_internal_code + " "
             self.mmr_source_delivery_order = mmr_source_delivery_order
+
+    @api.one
+    @api.depends('invoice_line_ids', 'invoice_line_ids.sale_line_ids')
+    def _get_source_sale_order(self):
+        if self.invoice_line_ids:
+            mmr_source_sales_order = False
+            sale_ids = []
+            for invoice_line in self.invoice_line_ids:
+                for sale_order_line in invoice_line.sale_line_ids:
+                    sale_ids += sale_order_line.order_id.ids
+            set_order_ids = list(set(sale_ids))
+            for set_order_id in set_order_ids:
+                if mmr_source_sales_order:
+                    mmr_source_sales_order += self.env['sale.order'].browse(set_order_id).mmr_internal_code or "-" + " "
+                else:
+                    mmr_source_sales_order = self.env['sale.order'].browse(set_order_id).mmr_internal_code or "-" + " "
+            self.mmr_source_sales_order = mmr_source_sales_order
 
     @api.model
     def create(self, vals):
