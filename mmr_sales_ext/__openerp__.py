@@ -11,16 +11,22 @@
         'base',
         'sale',
         'stock',
+        'sale_stock',
         'account',
         'mmr_description_UoM',
-        'crm'
+        'crm',
+        'account'
         ],
     'init_xml': [],
     'update_xml': [
         'data/mmr_sales_data.xml',
+        'data/mmr_account_data.xml',
+        'data/mmr_inventory_data.xml',
         'security/ir.model.access.csv',
         'views/sale_order_view.xml',
         'views/account_invoice.xml',
+        'views/account_views.xml',
+        'views/stock_move_views.xml',
         'report/report_deliveryslip.xml',
         'report/report_invoice.xml',
         'security/sales_security.xml'

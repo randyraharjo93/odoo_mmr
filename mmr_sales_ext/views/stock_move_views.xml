@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mmr_view_picking_form" model="ir.ui.view">
+            <field name="name">mmr.view.picking.form</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <xpath expr="//h1[@class='hidden-xs']" position="after">
+                    <h4 class="hidden-xs">
+                        <field name="mmr_internal_code"/>
+                    </h4>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mmr_vpicktree" model="ir.ui.view">
+            <field name="name">mmr.stock.picking.tree</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="mmr_internal_code"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mmr_view_picking_internal_search" model="ir.ui.view">
+            <field name="name">mmr.stock.picking.internal.search</field>
+            <field name="type">search</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="mmr_internal_code"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="filter_domain">['|',('name','ilike', self),('origin','ilike',self),('mmr_internal_code','ilike',self)]</attribute>
+                </xpath>
+            </field>
+        </record>
+
+  </data>
+</openerp>

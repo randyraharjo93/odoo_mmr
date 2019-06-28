@@ -8,8 +8,6 @@
     """,
     "depends": [
         'report',
-        'mmr_sale_account_ext',
-        'mmr_sale_inventory_ext'
         ],
     'init_xml': [],
     'update_xml': [

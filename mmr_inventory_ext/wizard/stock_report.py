@@ -28,6 +28,10 @@ class stock_report(models.TransientModel):
         if from_date:
             domain_move_in += [('date', '>=', from_date)]
             domain_move_out += [('date', '>=', from_date)]
+
+            # If there is From, Means I want Starting Value
+            domain_move_in_start_value = [('state', '=', 'done'), ('product_id', 'in', [product_id.id])] + domain_move_in_loc + [('date', '<', from_date)]
+            domain_move_out_start_value = [('state', '=', 'done'), ('product_id', 'in', [product_id.id])] + domain_move_out_loc + [('date', '<', from_date)]
         if to_date:
             domain_move_in += [('date', '<=', to_date)]
             domain_move_out += [('date', '<=', to_date)]
@@ -38,9 +42,40 @@ class stock_report(models.TransientModel):
         move_out_ids = Move.search(domain_move_out)
         report_line_ids = []
 
+        if from_date:
+            move_in_start_ids = Move.search(domain_move_in_start_value)
+            move_out_start_ids = Move.search(domain_move_out_start_value)
+            combined_sorted_starting_move_ids = sorted((move_in_start_ids + move_out_start_ids).read(['date']), key=lambda k: k['date'])
+            total_start_uom_qty = 0
+            total_start_value = 0
+            for start_move in combined_sorted_starting_move_ids:
+                move_id = Move.browse(start_move['id'])
+                if move_id in move_in_start_ids:
+                    total_start_uom_qty += move_id.product_uom_qty
+                    value = 0
+                    if move_id.price_unit:
+                        value = move_id.price_unit * move_id.product_uom_qty
+                    else:
+                        value = sum(quant.inventory_value for quant in move_id.quant_ids)
+                    total_start_value += value
+                elif move_id in move_out_start_ids:
+                    total_start_uom_qty -= move_id.product_uom_qty
+                    value = 0
+                    if move_id.price_unit:
+                        value = move_id.price_unit * move_id.product_uom_qty
+                    else:
+                        value = sum(quant.inventory_value for quant in move_id.quant_ids)
+                    total_start_value -= value
+            if total_start_uom_qty > 0:
+                report_line_ids.append((0, 0, {'source': "Starting Value", 'date': move_id.date, 'in_qty': total_start_uom_qty, 'total_qty': total_start_uom_qty, 'value': total_start_value, 'total_value': total_start_value}))
+
         combined_sorted_move_ids = sorted((move_in_ids + move_out_ids).read(['date']), key=lambda k: k['date'])
-        total_uom_qty = 0
-        total_value = 0
+        if total_start_uom_qty:
+            total_uom_qty = total_start_uom_qty
+            total_value = total_start_value
+        else:
+            total_uom_qty = 0
+            total_value = 0
         for move in combined_sorted_move_ids:
             move_id = Move.browse(move['id'])
             if move_id in move_in_ids:
