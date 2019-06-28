@@ -70,7 +70,7 @@ class stock_report(models.TransientModel):
                 report_line_ids.append((0, 0, {'source': "Starting Value", 'date': move_id.date, 'in_qty': total_start_uom_qty, 'total_qty': total_start_uom_qty, 'value': total_start_value, 'total_value': total_start_value}))
 
         combined_sorted_move_ids = sorted((move_in_ids + move_out_ids).read(['date']), key=lambda k: k['date'])
-        if total_start_uom_qty:
+        if from_date and total_start_uom_qty:
             total_uom_qty = total_start_uom_qty
             total_value = total_start_value
         else:

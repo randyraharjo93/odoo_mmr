@@ -103,17 +103,17 @@ class AccountInvoice(models.Model):
                     Hasil = Terbilang(n / 1000000000) + " Milyar" + Terbilang(n % 100000000)
                 return Hasil
             rec.mmr_written_amount_total = Terbilang(rec.amount_total)
-        if any(account_line.sale_line_ids for account_line in result.invoice_line_ids):
-            if len(result.invoice_line_ids.mapped('sale_line_ids')) > 1:
-                if result.company_id:
-                    result.mmr_multiple_so_code = result.env['ir.sequence'].with_context(force_company=result.company_id.id).next_by_code('mmr.account.multiple.so.sequence') or _('New')
+        if any(account_line.sale_line_ids for account_line in rec.invoice_line_ids):
+            if len(rec.invoice_line_ids.mapped('sale_line_ids')) > 1:
+                if rec.company_id:
+                    rec.mmr_multiple_so_code = rec.env['ir.sequence'].with_context(force_company=rec.company_id.id).next_by_code('mmr.account.multiple.so.sequence') or _('New')
                 else:
-                    result.mmr_multiple_so_code = result.env['ir.sequence'].next_by_code('mmr.account.multiple.so.sequence') or _('New')
+                    rec.mmr_multiple_so_code = rec.env['ir.sequence'].next_by_code('mmr.account.multiple.so.sequence') or _('New')
         else:
-            if result.company_id:
-                result.mmr_no_so_code = self.env['ir.sequence'].with_context(force_company=result.company_id.id).next_by_code('mmr.account.no.so.sequence') or _('New')
+            if rec.company_id:
+                rec.mmr_no_so_code = self.env['ir.sequence'].with_context(force_company=rec.company_id.id).next_by_code('mmr.account.no.so.sequence') or _('New')
             else:
-                result.mmr_no_so_code = self.env['ir.sequence'].next_by_code('mmr.account.no.so.sequence') or _('New')
+                rec.mmr_no_so_code = self.env['ir.sequence'].next_by_code('mmr.account.no.so.sequence') or _('New')
         return rec
 
     @api.multi
