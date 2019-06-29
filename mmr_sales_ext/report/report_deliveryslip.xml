@@ -97,7 +97,7 @@
                         <li><span class="page"/></li>
                         <li>/</li>
                         <li><span class="topage"/></li>
-                        <li>System Ref:</li>
+                        <li>Sysref:</li>
                         <li><span t-field="o.name"/></li>
                     </ul>
                 </div>
