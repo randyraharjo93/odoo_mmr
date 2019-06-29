@@ -26,8 +26,8 @@
                                 <field name="in_qty"/>
                                 <field name="out_qty"/>
                                 <field name="total_qty"/>
-                                <field name="value"/>
-                                <field name="total_value"/>
+                                <field name="value" groups="purchase.group_purchase_manager"/>
+                                <field name="total_value" groups="purchase.group_purchase_manager"/>
                             </tree>
                         </field>
                     </sheet>
@@ -45,6 +45,6 @@
             <field name="target">new</field>
         </record>
 
-        <menuitem id="menu_stock_report" name="Stock Report" action="action_stock_report" parent="stock.menu_warehouse_report"/>
+        <menuitem id="menu_stock_report" name="Stock Report" action="action_stock_report" parent="stock.menu_stock_inventory_control"/>
     </data>
 </odoo>

@@ -2,12 +2,25 @@
 <odoo>
     <data>
         <template id="report_delivery_document_mmr" inherit_id="stock.report_delivery_document">
+            <xpath expr="//div[@class='page']" position="attributes">
+                <attribute name="style">font-size: 12px;</attribute>
+            </xpath>
+
             <xpath expr="//div[@name='customer_address']/div[1]" position="attributes">
                 <attribute name="class">text-right</attribute>
             </xpath>
             
             <xpath expr="//div[@name='customer_address']/div[1]" position="before">
-                <div class="col-xs-5 text-left">
+                <div class="col-xs-offset-3 col-xs-5 text-center" >
+                    <div>
+                        <span><strong>Surat Jalan</strong></span>
+                    </div>
+                    <div>
+                        <span t-field="o.mmr_internal_code"/>
+                    </div>
+                    <div>
+                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
+                    </div>
                     <table class="table table-condensed">
                         <thead>
                             <tr>
@@ -34,23 +47,16 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-xs-3     text-center">
-                    <div>
-                        <span><strong>Surat Jalan</strong></span>
-                    </div>
-                    <div>
-                        <span t-field="o.mmr_internal_code"/>
-                    </div>
-                    <div>
-                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
-                    </div>
-                </div>
             </xpath>
 
             <xpath expr="//h2" position="replace">
             </xpath>
 
             <xpath expr="//div[@class='page']/table[1]" position="replace">
+            </xpath>
+
+            <xpath expr="//div[@class='page']/table[2]" position="attributes">
+                <attribute name="class">table table-sm mt8</attribute>
             </xpath>
 
             <xpath expr="//div[@class='page']/table[2]/thead/tr/th[2]" position="replace">
@@ -73,32 +79,32 @@
             </xpath>
 
             <xpath expr="//div[@class='page']" position="after">
-                <div class="footer">
+                <div class="footer" style="font-size: 12px;">
                     <div class="text-center">
                         <span> Surat Jalan ini sah apabila terdapat tanda tangan lengkap dibawah ini </span>
                     </div>
-                    <div class="col-xs-3">
+                    <div class="col-xs-offset-2 col-xs-2">
                         Tanda Terima,
                     </div>
-                    <div class="col-xs-3">
+                    <div class="col-xs-2">
                         Pengiriman,
                     </div>
-                    <div class="col-xs-3">
+                    <div class="col-xs-2">
                         Gudang,
                     </div>
-                    <div class="col-xs-3">
+                    <div class="col-xs-2">
                         Hormat kami,
                     </div>
                     <br/>
                     <br/>
                     <br/>
-                    <ul class="list-inline">
+                    <br/>
+                    <ul class="list-inline" style="font-size: 8px;">
                         <li>Page:</li>
                         <li><span class="page"/></li>
                         <li>/</li>
                         <li><span class="topage"/></li>
-                        <li>Sysref:</li>
-                        <li><span t-field="o.name"/></li>
+                        <li class="pull-right">Sysref: <span t-field="o.name"/></li>
                     </ul>
                 </div>
             </xpath>
