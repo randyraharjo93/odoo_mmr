@@ -32,7 +32,7 @@
                         </strong>
                     </div>
                     <div t-if="o.mmr_source_delivery_order">
-                        Delivery Order: <span t-field="o.mmr_source_delivery_order"/>
+                        DO: <span t-field="o.mmr_source_delivery_order"/>
                     </div>
                 </div>
             </xpath>
