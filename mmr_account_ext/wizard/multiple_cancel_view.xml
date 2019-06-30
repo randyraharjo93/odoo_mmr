@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--Account Move lines-->
+        <record id="unvalidate_account_move_view" model="ir.ui.view">
+            <field name="name">Unpost Journal Entries</field>
+            <field name="model">unvalidate.account.move</field>
+            <field name="arch" type="xml">
+                <form string="Unpost Journal Entries">
+                    <label string="All selected journal entries will be un-validated and drafted."/>
+                    <footer>
+                        <button string="Unpost Journal Entries" name="unvalidate_move" type="object" default_focus="1" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_unvalidate_account_move" model="ir.actions.act_window">
+            <field name="name">Unpost Journal Entries</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">unvalidate.account.move</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="unvalidate_account_move_view"/>
+            <field name="context">{}</field>
+            <field name="target">new</field>
+            <field name="help">This wizard will unvalidate all journal entries selected.</field>
+        </record>
+
+        <record model="ir.values" id="unvalidate_account_move_values">
+            <field name="model_id" ref="account.model_account_move" />
+            <field name="name">Unpost Journal Entries</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_unvalidate_account_move'))" />
+            <field name="key">action</field>
+            <field name="model">account.move</field>
+        </record>
+
+    </data>
+</odoo>
