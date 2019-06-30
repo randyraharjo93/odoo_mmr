@@ -76,12 +76,6 @@
                 </div>
             </xpath>
 
-            <xpath expr="//div[@class='page']/div[@class='row'][2]/div[2]/table/tr[1]" position="replace">
-            </xpath>
-
-            <xpath expr="//div[@class='page']/div[@class='row'][2]/div[2]/table/t" position="replace">
-            </xpath>
-
             <xpath expr="//div[@class='page']/div[@class='row'][2]" position="after">
                 <div class="pull-right">
                     <span>Terbilang: </span>
