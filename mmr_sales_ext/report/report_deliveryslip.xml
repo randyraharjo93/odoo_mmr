@@ -3,7 +3,7 @@
     <data>
         <template id="report_delivery_document_mmr" inherit_id="stock.report_delivery_document">
             <xpath expr="//div[@class='page']" position="attributes">
-                <attribute name="style">font-size: 8px;</attribute>
+                <attribute name="style">font-size: 10px;</attribute>
             </xpath>
 
             <xpath expr="//div[@name='customer_address']/div[1]" position="attributes">
@@ -11,7 +11,7 @@
             </xpath>
             
             <xpath expr="//div[@name='customer_address']/div[1]" position="before">
-                <div class="col-xs-offset-3 col-xs-5 text-center" >
+                <div class="col-xs-offset-4 col-xs-4 text-center" >
                     <div>
                         <span><strong>Surat Jalan</strong></span>
                     </div>
@@ -79,7 +79,7 @@
             </xpath>
 
             <xpath expr="//div[@class='page']" position="after">
-                <div class="footer" style="font-size: 8px;">
+                <div class="footer" style="font-size: 10px;">
                     <div class="text-center">
                         <span> Surat Jalan ini sah apabila terdapat tanda tangan lengkap dibawah ini </span>
                     </div>
@@ -99,7 +99,7 @@
                     <br/>
                     <br/>
                     <br/>
-                    <ul class="list-inline" style="font-size: 6px;">
+                    <ul class="list-inline" style="font-size: 8px;">
                         <li>Page:</li>
                         <li><span class="page"/></li>
                         <li>/</li>
