@@ -11,7 +11,8 @@
         'base',
         'purchase',
         'account',
-        'mmr_purchase_history'
+        'mmr_purchase_history',
+        'mmr_description_UoM'
         ],
     'init_xml': [],
     'update_xml': [

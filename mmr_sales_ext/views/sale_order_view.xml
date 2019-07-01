@@ -170,5 +170,18 @@
             sequence="2"
             action="mmr_reccurent_lost_report"/>
 
+        <record model="ir.actions.act_window" id="mmr_sale_order_line_action">
+            <field name="name">Sales Detail</field>
+            <field name="res_model">sale.order.line</field>
+            <field name="view_mode">tree,pivot,graph</field>
+        </record>
+
+        <menuitem
+            id="mmr_sale_order_line_menu"
+            name="Sales Detail"
+            parent="sales_team.menu_sale_report"
+            sequence="3"
+            action="mmr_sale_order_line_action"/>
+
   </data>
 </openerp>

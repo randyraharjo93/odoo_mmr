@@ -2,11 +2,35 @@
 <odoo>
     <data>
         <template id="report_purchaseorder_document_mmr" inherit_id="purchase.report_purchaseorder_document">
+            <xpath expr="//div[@class='page']" position="before">
+                <div class="header">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 45px;"/>
+                        </div>
+                        <div class="col-xs-9 text-right" style="margin-top:20px;" t-field="o.company_id.rml_header1"/>
+                    </div>
+                    <div class="row zero_min_height">
+                        <div class="col-xs-12">
+                            <div style="border-bottom: 1px solid black;"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6" name="company_address">
+                            <span t-field="o.company_id.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" style="border-bottom: 1px solid black; display:inline-block;"/>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+            
             <xpath expr="//table/thead/tr/th[5]" position="attributes">
                  <attribute name="groups">purchase.group_purchase_manager</attribute>
             </xpath>
             <xpath expr="//table/thead/tr/th[6]" position="attributes">
                  <attribute name="groups">purchase.group_purchase_manager</attribute>
+            </xpath>
+            <xpath expr="//table/tbody/tr/td[4]/span[@t-field='line.product_uom.name']" position="replace">
+                 <span t-field="line.product_id.mmr_UOM" groups="product.group_uom"/>
             </xpath>
             <xpath expr="//table/tbody/tr/td[5]" position="attributes">
                  <attribute name="groups">purchase.group_purchase_manager</attribute>
@@ -16,6 +40,21 @@
             </xpath>
             <xpath expr="//div[@class='row'][2]" position="attributes">
                  <attribute name="groups">purchase.group_purchase_manager</attribute>
+            </xpath>
+
+            <xpath expr="//p[@t-field='o.notes']" position="before">
+                 <p>
+                    <b>CATATAN:</b><br/>
+                    <ol style="text-align: left; margin-left:5px">
+                        <li>Semua pesanan dari perusahaan kami harus berupa surat pesanan yang ditandandatangi.</li>
+                        <li>Kami berhak menolak barang yang periode tanggal kadaluarsa nya singkat, jumlah tidak sesuai dan kemasan yang rusak.</li>
+                        <li>PO berlaku hanya 1 (satu) minggu dari tanggal PO, setelah 1 (satu) minggu dinyatakan tidak berlaku lagi, atau pengiriman harus konfirmasi terlebih dahulu.</li>
+                        <li>Harap KONFIRMASI apabila ada barang kosong / Exp Pendek (Kurang dari 1 Tahun)</li>
+                        <li>Tempo Pembayaran berlaku setelah barang diterima</li>
+                        <li>Faktur Harap Dimasukkan kedalam amplop tertutup</li>
+                        <li>Pengiriman harap menyesuaikan instruksi dari kami</li>
+                    </ol>
+                 </p>
             </xpath>
         </template>
     </data>

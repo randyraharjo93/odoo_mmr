@@ -74,5 +74,18 @@
             </field>
         </record>
 
+        <record model="ir.actions.act_window" id="mmr_purchase_order_line_action">
+            <field name="name">Purchases Detail</field>
+            <field name="res_model">purchase.order.line</field>
+            <field name="view_mode">tree,pivot,graph</field>
+        </record>
+
+        <menuitem
+            id="mmr_purchase_order_line_menu"
+            name="Purchases Detail"
+            parent="purchase.purchase_report"
+            sequence="3"
+            action="mmr_purchase_order_line_action"/>
+
   </data>
 </openerp>
