@@ -23,7 +23,7 @@ class AccountInvoice(models.Model):
     @api.one
     def _get_internal_code_name(self):
         if any(account_line.sale_line_ids for account_line in self.invoice_line_ids):
-            if len(self.invoice_line_ids.mapped('sale_line_ids')) > 1:
+            if len(self.invoice_line_ids.mapped('sale_line_ids').mapped('order_id')) > 1:
                 self.mmr_internal_code = self.mmr_multiple_so_code
             else:
                 sale_order_id = self.invoice_line_ids.mapped('sale_line_ids')[0].order_id
@@ -104,7 +104,7 @@ class AccountInvoice(models.Model):
                 return Hasil
             rec.mmr_written_amount_total = Terbilang(rec.amount_total)
         if any(account_line.sale_line_ids for account_line in rec.invoice_line_ids):
-            if len(rec.invoice_line_ids.mapped('sale_line_ids')) > 1:
+            if len(rec.invoice_line_ids.mapped('sale_line_ids').mapped('order_id')) > 1:
                 if rec.company_id:
                     rec.mmr_multiple_so_code = rec.env['ir.sequence'].with_context(force_company=rec.company_id.id).next_by_code('mmr.account.multiple.so.sequence') or _('New')
                 else:
