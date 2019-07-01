@@ -70,9 +70,12 @@
             <xpath expr="//div[@class='page']/div[@class='row'][2]/div" position="before">
                 <div class="col-xs-8 pull-left" style="border:1px solid">
                     <span>Pembayaran Harap di Transfer ke Rekening</span>
-                    <span>PT. MULTI MEDIKA RAHARJO</span>
-                    <span>BCA KCP PEMUDA SEMARANG</span>
-                    <span>AC NO. 0093112277</span>
+                    <t t-foreach="o.company_id.partner_id.bank_ids" t-as="bank_id">
+                        <span t-field="bank_id.account_holder_name"/>
+                        <span t-field="bank_id.bank_id.name"/>
+                        <span> Account Number : </span>
+                        <span t-field="bank_id.acc_number"/>
+                    </t>
                 </div>
             </xpath>
 
