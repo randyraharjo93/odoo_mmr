@@ -90,11 +90,11 @@ class stock_report(models.TransientModel):
                     for linked_move_operation_id in move_id.linked_move_operation_ids:
                         if len(linked_move_operation_id.operation_id.pack_lot_ids) > 0:
                             for pack_lot_id in linked_move_operation_id.operation_id.pack_lot_ids:
-                                report_line_ids.append((0, 0, {'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'in_qty': pack_lot_id.qty, 'product_lot_id': pack_lot_id.lot_id, 'total_qty': total_uom_qty, 'value': move_id.price_unit * pack_lot_id.qty, 'total_value': total_value}))
+                                report_line_ids.append((0, 0, {'partner_id': move_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'in_qty': pack_lot_id.qty, 'product_lot_id': pack_lot_id.lot_id, 'total_qty': total_uom_qty, 'value': move_id.price_unit * pack_lot_id.qty, 'total_value': total_value}))
                         else:
-                            report_line_ids.append((0, 0, {'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'in_qty': linked_move_operation_id.qty, 'total_qty': total_uom_qty, 'value': move_id.price_unit * linked_move_operation_id.qty, 'total_value': total_value}))
+                            report_line_ids.append((0, 0, {'partner_id': move_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'in_qty': linked_move_operation_id.qty, 'total_qty': total_uom_qty, 'value': move_id.price_unit * linked_move_operation_id.qty, 'total_value': total_value}))
                 else:
-                    report_line_ids.append((0, 0, {'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'in_qty': move_id.product_uom_qty, 'product_lot_id': move_id.lot_ids[0], 'total_qty': total_uom_qty, 'value': value, 'total_value': total_value}))
+                    report_line_ids.append((0, 0, {'partner_id': move_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'in_qty': move_id.product_uom_qty, 'product_lot_id': move_id.lot_ids[0], 'total_qty': total_uom_qty, 'value': value, 'total_value': total_value}))
 
             elif move_id in move_out_ids:
                 total_uom_qty -= move_id.product_uom_qty
@@ -108,11 +108,11 @@ class stock_report(models.TransientModel):
                     for linked_move_operation_id in move_id.linked_move_operation_ids:
                         if len(linked_move_operation_id.operation_id.pack_lot_ids) > 0:
                             for pack_lot_id in linked_move_operation_id.operation_id.pack_lot_ids:
-                                report_line_ids.append((0, 0, {'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'out_qty': pack_lot_id.qty, 'product_lot_id': pack_lot_id.lot_id, 'total_qty': total_uom_qty, 'value': move_id.price_unit * pack_lot_id.qty, 'total_value': total_value}))
+                                report_line_ids.append((0, 0, {'partner_id': move_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'out_qty': pack_lot_id.qty, 'product_lot_id': pack_lot_id.lot_id, 'total_qty': total_uom_qty, 'value': move_id.price_unit * pack_lot_id.qty, 'total_value': total_value}))
                         else:
-                            report_line_ids.append((0, 0, {'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'out_qty': linked_move_operation_id.qty, 'total_qty': total_uom_qty, 'value': move_id.price_unit * linked_move_operation_id.qty, 'total_value': total_value}))
+                            report_line_ids.append((0, 0, {'partner_id': move_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'out_qty': linked_move_operation_id.qty, 'total_qty': total_uom_qty, 'value': move_id.price_unit * linked_move_operation_id.qty, 'total_value': total_value}))
                 else:
-                    report_line_ids.append((0, 0, {'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'out_qty': move_id.product_uom_qty, 'product_lot_id': move_id.lot_ids[0], 'total_qty': total_uom_qty, 'value': value, 'total_value': total_value}))
+                    report_line_ids.append((0, 0, {'partner_id': move_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'out_qty': move_id.product_uom_qty, 'product_lot_id': move_id.lot_ids[0], 'total_qty': total_uom_qty, 'value': value, 'total_value': total_value}))
 
         self.stock_report_line_ids = report_line_ids
         return True
@@ -123,6 +123,7 @@ class stock_report_line(models.TransientModel):
     _description = "Stock Report Line"
 
     stock_report_id = fields.Many2one("stock.report", "Stock Report")
+    partner_id = fields.Many2one('res.partner', 'Partner')
     source = fields.Char("Source")
     date = fields.Datetime("Date")
     product_uom_id = fields.Many2one('product.uom', 'Unit of Measure')
