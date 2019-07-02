@@ -10,7 +10,7 @@
                 <div class="header">
                     <div class="row">
                         <div class="col-xs-3">
-                            <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 45px;"/>
+                            <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 60x;"/>
                         </div>
                         <div class="col-xs-9 text-right" style="margin-top:20px;" t-field="o.company_id.rml_header1"/>
                     </div>
@@ -42,7 +42,7 @@
             <xpath expr="//table/tbody/tr/td[6]" position="attributes">
                  <attribute name="groups">purchase.group_purchase_manager</attribute>
             </xpath>
-            <xpath expr="//div[@class='row'][2]" position="attributes">
+            <xpath expr="//div[@class='page']//div[@class='row'][2]" position="attributes">
                  <attribute name="groups">purchase.group_purchase_manager</attribute>
             </xpath>
 
