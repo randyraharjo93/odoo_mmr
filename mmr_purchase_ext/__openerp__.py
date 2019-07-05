@@ -12,7 +12,8 @@
         'purchase',
         'account',
         'mmr_purchase_history',
-        'mmr_description_UoM'
+        'mmr_description_UoM',
+        'purchase_discount',
         ],
     'init_xml': [],
     'update_xml': [
