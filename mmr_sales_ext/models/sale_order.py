@@ -39,6 +39,7 @@ class SaleOrder(models.Model):
 
     mmr_fee = fields.Monetary("Fee", track_visibility='onchange')
     mmr_internal_code = fields.Char("Internal Code")
+    mmr_internal_code_number = fields.Char("Internal Code Number")
 
     @api.multi
     def action_confirm(self):
@@ -51,14 +52,40 @@ class SaleOrder(models.Model):
                         raise UserError(_("Price of Product :" + order_line.product_id.display_name + " is lower than the minimum sale price. Please contact manager to confirm the sale."))
         return res
 
+    @api.multi
+    def action_name_refresh(self):
+        if self.mmr_internal_code_number:
+            code_number = self.mmr_internal_code_number
+        else:
+            code_number = "-"
+        if self.company_id:
+            company_ref = self.env['res.company'].browse(self.company_id.id).partner_id.ref or "-"
+        else:
+            code_number = "-"
+        if self.user_id:
+            salesperson_ref = self.env['res.users'].browse(self.user_id.id).partner_id.ref or "-"
+        else:
+            salesperson_ref = "-"
+        if self.team_id:
+            team_ref = self.env['crm.team'].browse(self.team_id.id).name or "-"
+        else:
+            team_ref = "-"
+        if self.date_order:
+            date_format = self.date_order[5:7] + "/" + self.date_order[0:4]
+        else:
+            date_format = "-"
+        self.mmr_internal_code = code_number + "/" + company_ref + "/" + salesperson_ref + "/" + team_ref + "/" + date_format
+
     @api.model
     def create(self, vals):
         # Construct MMR Internal Code
         if 'company_id' in vals:
             code_number = self.env['ir.sequence'].with_context(force_company=vals['company_id']).next_by_code('mmr.sale.sequence') or _('New')
+            self.mmr_internal_code_number = code_number
             company_ref = self.env['res.company'].browse(vals['company_id']).partner_id.ref or "-"
         else:
             code_number = self.env['ir.sequence'].next_by_code('mmr.sale.sequence') or _('New')
+            self.mmr_internal_code_number = code_number
             company_ref = "-"
         if 'user_id' in vals:
             salesperson_ref = self.env['res.users'].browse(vals['user_id']).partner_id.ref or "-"

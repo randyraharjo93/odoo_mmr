@@ -28,10 +28,16 @@
                 <xpath expr="//form/sheet/notebook/page[1]/field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
                     <attribute name="groups">purchase.group_purchase_manager</attribute>
                 </xpath>
+                <xpath expr="//form/sheet/notebook/page[1]/field[@name='order_line']/tree/field[@name='taxes_id']" position="attributes">
+                    <attribute name="groups">purchase.group_purchase_manager</attribute>
+                </xpath>
                 <xpath expr="//form/sheet/notebook/page[1]/field[@name='order_line']/tree/field[@name='price_subtotal']" position="attributes">
                     <attribute name="groups">purchase.group_purchase_manager</attribute>
                 </xpath>
                 <xpath expr="//form/sheet/notebook/page[1]/field[@name='order_line']/form//field[@name='price_unit']" position="attributes">
+                    <attribute name="groups">purchase.group_purchase_manager</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[1]/field[@name='order_line']/form//field[@name='taxes_id']" position="attributes">
                     <attribute name="groups">purchase.group_purchase_manager</attribute>
                 </xpath>
                 <xpath expr="//form/sheet/notebook/page[1]/field[@name='order_line']/form//notebook/page[2]" position="attributes">
@@ -43,6 +49,32 @@
                 <!-- Hide Tracking Value for Normal Purchase user -->
                 <xpath expr="//form/div[@class='oe_chatter']/field[@name='message_ids']" position="replace">
                     <field name="filtered_message_ids" widget="mail_thread"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mmr_purchase_order_discount_form_line_tree" model="ir.ui.view">
+            <field name="name">mmr.purchase.order.discount.form.line.tree</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="purchase_discount.purchase_discount_order_form_line_tree"/>
+            <field name="model">purchase.order</field>
+            <field name="arch" type="xml">
+                <!-- Hide Price for purchase person -->
+                <xpath expr="//form/sheet/notebook/page[1]/field[@name='order_line']/tree/field[@name='discount']" position="attributes">
+                    <attribute name="groups">purchase.group_purchase_manager</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mmr_purchase_order_discount_form_line_form" model="ir.ui.view">
+            <field name="name">mmr.purchase.order.discount.form.line.form</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="purchase_discount.purchase_discount_order_form_line_form"/>
+            <field name="model">purchase.order</field>
+            <field name="arch" type="xml">
+                <!-- Hide Price for purchase person -->
+                <xpath expr="//form/sheet/notebook/page[1]/field[@name='order_line']/form//field[@name='discount']" position="attributes">
+                    <attribute name="groups">purchase.group_purchase_manager</attribute>
                 </xpath>
             </field>
         </record>
