@@ -81,11 +81,11 @@ class SaleOrder(models.Model):
         # Construct MMR Internal Code
         if 'company_id' in vals:
             code_number = self.env['ir.sequence'].with_context(force_company=vals['company_id']).next_by_code('mmr.sale.sequence') or _('New')
-            self.mmr_internal_code_number = code_number
+            vals['mmr_internal_code_number'] = code_number
             company_ref = self.env['res.company'].browse(vals['company_id']).partner_id.ref or "-"
         else:
             code_number = self.env['ir.sequence'].next_by_code('mmr.sale.sequence') or _('New')
-            self.mmr_internal_code_number = code_number
+            vals['mmr_internal_code_number'] = code_number
             company_ref = "-"
         if 'user_id' in vals:
             salesperson_ref = self.env['res.users'].browse(vals['user_id']).partner_id.ref or "-"
