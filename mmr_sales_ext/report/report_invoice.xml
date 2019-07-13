@@ -6,8 +6,40 @@
                 <attribute name="style">font-size: 13px;</attribute>
             </xpath>
             <xpath expr="//div[@class='page']/div[@class='row'][1]/div" position="before">
-                 <div class="col-xs-offset-3 col-xs-5 text-center">
-                    <div>
+                <div class="col-xs-4" >
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <b style="font-size: 15px;">
+                                <span t-field="o.company_id.display_name"/>
+                            </b>
+                        </div>
+                    </div>
+                    <div class="row" style="font-size: 11px;">
+                        <div class="col-xs-12">
+                            <span t-field="o.company_id.rml_header1"/>
+                        </div>
+                    </div>
+                    <div class="row" style="font-size: 11px;">
+                        <div class="col-xs-6" name="company_phone">
+                            <span>Office : </span>
+                            <span t-field="o.company_id.partner_id.phone"/>
+                        </div>
+                        <div class="col-xs-6" name="company_fax">
+                            <span>Fax : </span>
+                            <span t-field="o.company_id.partner_id.fax"/>
+                        </div>
+                    </div>
+                    <div class="row" style="font-size: 11px;">
+                        <div class="col-xs-12" name="company_address">
+                            <span t-field="o.company_id.partner_id.street"/>
+                        </div>
+                        <div class="col-xs-12" name="company_city">
+                            <span t-field="o.company_id.partner_id.city"/>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-xs-4 text-center">
+                    <div style="font-size: 15px;">
                         <strong>
                             <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Invoice</span>
                             <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
@@ -57,13 +89,23 @@
                 <span t-field="l.product_id.mmr_UOM" groups="product.group_uom"/>
             </xpath>
 
-            <xpath expr="//div[@class='page']/table/thead/tr/th[6]" position="replace">
+            <xpath expr="//div[@class='page']/table/thead/tr/th[1]" position="before">
+                <th>Product</th>
             </xpath>
 
-            <xpath expr="//div[@class='page']/table/tbody/tr/td[6]" position="replace">
+            <xpath expr="//div[@class='page']/table/tbody/tr/td[1]" position="before">
+                <td>
+                    <span t-field="l.product_id.name"/>
+                </td> 
             </xpath>
 
-            <xpath expr="//div[@class='page']/table/thead/tr/th[6]" position="replace">
+            <xpath expr="//div[@class='page']/table/thead/tr/th[7]" position="replace">
+            </xpath>
+
+            <xpath expr="//div[@class='page']/table/tbody/tr/td[7]" position="replace">
+            </xpath>
+
+            <xpath expr="//div[@class='page']/table/thead/tr/th[7]" position="replace">
                 <th class="text-right">Total</th>
             </xpath>
 
