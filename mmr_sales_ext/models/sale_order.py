@@ -33,6 +33,15 @@ class SaleOrderLine(models.Model):
             else:
                 self.mmr_code_p = False
 
+    @api.multi
+    @api.onchange('product_id')
+    def product_id_change(self):
+        result = super(SaleOrderLine, self).product_id_change()
+        vals = {}
+        vals['name'] = '/'
+        self.update(vals)
+        return result
+
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"

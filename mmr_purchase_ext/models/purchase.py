@@ -99,3 +99,9 @@ class PurchaseOrderLine(models.Model):
             price_unit = seller.product_uom._compute_price(price_unit, self.product_uom)
 
         self.price_unit = price_unit
+
+    @api.onchange('product_id')
+    def onchange_product_id(self):
+        result = super(PurchaseOrderLine, self).onchange_product_id()
+        self.name = '/'
+        return result
