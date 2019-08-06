@@ -18,7 +18,8 @@
                             </div>
     					</group>
                         <field name="stock_report_line_ids" readonly="1">
-                            <tree default_order="date desc">
+                            <tree default_order="sequence desc">
+                                <field name="sequence" invisible="1"/>
                                 <field name="stock_move_id" invisible="1"/>
                                 <field name="partner_id"/>
                                 <field name="source"/>
