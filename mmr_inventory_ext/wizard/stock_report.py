@@ -81,32 +81,32 @@ class stock_report(models.TransientModel):
         for move in combined_sorted_move_ids:
             move_id = Move.browse(move['id'])
             if move_id in move_in_ids:
-                
                 if move_id.linked_move_operation_ids:
                     for linked_move_operation_id in move_id.linked_move_operation_ids:
-                        if len(linked_move_operation_id.operation_id.pack_lot_ids) > 0:
-                            operation_done_ids.append(linked_move_operation_id.operation_id)
-                            for pack_lot_id in linked_move_operation_id.operation_id.pack_lot_ids:
-                                total_uom_qty += pack_lot_id.qty
+                        if linked_move_operation_id.operation_id not in operation_done_ids:
+                            if len(linked_move_operation_id.operation_id.pack_lot_ids) > 0:
+                                operation_done_ids.append(linked_move_operation_id.operation_id)
+                                for pack_lot_id in linked_move_operation_id.operation_id.pack_lot_ids:
+                                    total_uom_qty += pack_lot_id.qty
+                                    value = 0
+                                    if move_id.price_unit:
+                                        value = move_id.price_unit * pack_lot_id.qty
+                                    else:
+                                        value = sum(quant.inventory_value for quant in move_id.quant_ids)
+                                    total_value += value
+                                    report_line_ids.append((0, 0, {'sequence': sequencer, 'stock_move_id': move_id, 'partner_id': move_id.partner_id or move_id.picking_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'in_qty': pack_lot_id.qty, 'product_lot_id': pack_lot_id.lot_id, 'total_qty': total_uom_qty, 'value': move_id.price_unit * pack_lot_id.qty, 'total_value': total_value}))
+                                    sequencer += 1
+                            else:
+                                operation_done_ids.append(linked_move_operation_id.operation_id)
+                                total_uom_qty += linked_move_operation_id.qty
                                 value = 0
                                 if move_id.price_unit:
-                                    value = move_id.price_unit * pack_lot_id.qty
+                                    value = move_id.price_unit * linked_move_operation_id.qty
                                 else:
                                     value = sum(quant.inventory_value for quant in move_id.quant_ids)
                                 total_value += value
-                                report_line_ids.append((0, 0, {'sequence': sequencer, 'stock_move_id': move_id, 'partner_id': move_id.partner_id or move_id.picking_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'in_qty': pack_lot_id.qty, 'product_lot_id': pack_lot_id.lot_id, 'total_qty': total_uom_qty, 'value': move_id.price_unit * pack_lot_id.qty, 'total_value': total_value}))
+                                report_line_ids.append((0, 0, {'sequence': sequencer, 'stock_move_id': move_id, 'partner_id': move_id.partner_id or move_id.picking_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'in_qty': linked_move_operation_id.qty, 'total_qty': total_uom_qty, 'value': move_id.price_unit * linked_move_operation_id.qty, 'total_value': total_value}))
                                 sequencer += 1
-                        else:
-                            operation_done_ids.append(linked_move_operation_id.operation_id)
-                            total_uom_qty += linked_move_operation_id.qty
-                            value = 0
-                            if move_id.price_unit:
-                                value = move_id.price_unit * linked_move_operation_id.qty
-                            else:
-                                value = sum(quant.inventory_value for quant in move_id.quant_ids)
-                            total_value += value
-                            report_line_ids.append((0, 0, {'sequence': sequencer, 'stock_move_id': move_id, 'partner_id': move_id.partner_id or move_id.picking_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'in_qty': linked_move_operation_id.qty, 'total_qty': total_uom_qty, 'value': move_id.price_unit * linked_move_operation_id.qty, 'total_value': total_value}))
-                            sequencer += 1
                 else:
                     total_uom_qty += move_id.product_uom_qty
                     value = 0
@@ -127,7 +127,7 @@ class stock_report(models.TransientModel):
                                     total_uom_qty -= pack_lot_id.qty
                                     value = 0
                                     if move_id.price_unit:
-                                        value = move_id.price_unit * move_id.product_uom_qty
+                                        value = move_id.price_unit * pack_lot_id.qty
                                     else:
                                         value = sum(quant.inventory_value for quant in move_id.quant_ids)
                                     total_value -= value
