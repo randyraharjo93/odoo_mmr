@@ -89,7 +89,7 @@ class stock_report(models.TransientModel):
                 for move_quant in move_id.quant_ids:
                     total_uom_qty -= move_quant.qty
                     total_value -= move_quant.inventory_value
-                    report_line_ids.append((0, 0, {'sequence': sequencer, 'stock_move_id': move_id, 'partner_id': move_id.partner_id or move_id.picking_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'in_qty': move_quant.qty, 'product_lot_id': move_quant.lot_id, 'total_qty': total_uom_qty, 'value': move_quant.inventory_value, 'total_value': total_value}))
+                    report_line_ids.append((0, 0, {'sequence': sequencer, 'stock_move_id': move_id, 'partner_id': move_id.partner_id or move_id.picking_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'out_qty': move_quant.qty, 'product_lot_id': move_quant.lot_id, 'total_qty': total_uom_qty, 'value': move_quant.inventory_value, 'total_value': total_value}))
                     sequencer += 1
         self.stock_report_line_ids = report_line_ids
         return True
