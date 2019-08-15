@@ -67,7 +67,7 @@ class stock_report(models.TransientModel):
                         value = sum(quant.inventory_value for quant in move_id.quant_ids)
                     total_start_value -= value
             if total_start_uom_qty > 0:
-                report_line_ids.append((0, 0, {'source': "Starting Value", 'date': move_id.date, 'in_qty': total_start_uom_qty, 'total_qty': total_start_uom_qty, 'value': total_start_value, 'total_value': total_start_value}))
+                report_line_ids.append((0, 0, {'sequence': 0, 'source': "Starting Value", 'date': move_id.date, 'in_qty': total_start_uom_qty, 'total_qty': total_start_uom_qty, 'value': total_start_value, 'total_value': total_start_value}))
 
         combined_sorted_move_ids = sorted((move_in_ids + move_out_ids).read(['date']), key=lambda k: k['date'])
         if from_date and total_start_uom_qty:
@@ -76,20 +76,34 @@ class stock_report(models.TransientModel):
         else:
             total_uom_qty = 0
             total_value = 0
-        sequencer = 0
+        sequencer = 1
         for move in combined_sorted_move_ids:
             move_id = Move.browse(move['id'])
             if move_id in move_in_ids:
+                dict_lot_quants = {}
                 for move_quant in move_id.quant_ids:
-                    total_uom_qty += move_quant.qty
-                    total_value += move_quant.inventory_value
-                    report_line_ids.append((0, 0, {'sequence': sequencer, 'stock_move_id': move_id, 'partner_id': move_id.partner_id or move_id.picking_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'in_qty': move_quant.qty, 'product_lot_id': move_quant.lot_id, 'total_qty': total_uom_qty, 'value': move_quant.inventory_value, 'total_value': total_value}))
+                    if move_quant.lot_id.id in dict_lot_quants:
+                        dict_lot_quants[move_quant.lot_id.id]['qty'] += move_quant.qty
+                        dict_lot_quants[move_quant.lot_id.id]['inventory_value'] += move_quant.inventory_value
+                    else:
+                        dict_lot_quants[move_quant.lot_id.id] = {'qty': move_quant.qty, 'inventory_value': move_quant.inventory_value}
+                for dict_lot_quant in dict_lot_quants:
+                    total_uom_qty += dict_lot_quants[dict_lot_quant]['qty']
+                    total_value += dict_lot_quants[dict_lot_quant]['inventory_value']
+                    report_line_ids.append((0, 0, {'sequence': sequencer, 'stock_move_id': move_id, 'partner_id': move_id.partner_id or move_id.picking_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'in_qty': dict_lot_quants[dict_lot_quant]['qty'], 'product_lot_id': dict_lot_quant, 'total_qty': total_uom_qty, 'value': dict_lot_quants[dict_lot_quant]['inventory_value'], 'total_value': total_value}))
                     sequencer += 1
             elif move_id in move_out_ids:
+                dict_lot_quants = {}
                 for move_quant in move_id.quant_ids:
-                    total_uom_qty -= move_quant.qty
-                    total_value -= move_quant.inventory_value
-                    report_line_ids.append((0, 0, {'sequence': sequencer, 'stock_move_id': move_id, 'partner_id': move_id.partner_id or move_id.picking_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'out_qty': move_quant.qty, 'product_lot_id': move_quant.lot_id, 'total_qty': total_uom_qty, 'value': move_quant.inventory_value, 'total_value': total_value}))
+                    if move_quant.lot_id.id in dict_lot_quants:
+                        dict_lot_quants[move_quant.lot_id.id]['qty'] += move_quant.qty
+                        dict_lot_quants[move_quant.lot_id.id]['inventory_value'] += move_quant.inventory_value
+                    else:
+                        dict_lot_quants[move_quant.lot_id.id] = {'qty': move_quant.qty, 'inventory_value': move_quant.inventory_value}
+                for dict_lot_quant in dict_lot_quants:
+                    total_uom_qty -= dict_lot_quants[dict_lot_quant]['qty']
+                    total_value -= dict_lot_quants[dict_lot_quant]['inventory_value']
+                    report_line_ids.append((0, 0, {'sequence': sequencer, 'stock_move_id': move_id, 'partner_id': move_id.partner_id or move_id.picking_id.partner_id, 'source': move_id.origin or move_id.picking_id.origin or move_id.picking_id.name or "Unidentified", 'product_uom_id': move_id.product_uom, 'date': move_id.date, 'out_qty': dict_lot_quants[dict_lot_quant]['qty'], 'product_lot_id': move_quant.lot_id, 'total_qty': total_uom_qty, 'value': dict_lot_quants[dict_lot_quant]['inventory_value'], 'total_value': total_value}))
                     sequencer += 1
         self.stock_report_line_ids = report_line_ids
         return True
