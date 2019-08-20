@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mmr_stock_account_ext_view_picking_form" model="ir.ui.view">
+            <field name="name">mmr.stock.account.ext.view.picking.form</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Accounting" name="accounting" group="account.group_account_user">
+                        <field name="mmr_account_move_ids" nolabel="1"/>
+                        <group>
+                            <button name="%(action_change_date_wizard)d" type="action" string="Force Change Date" group="account.group_account_manager" attrs="{'invisible': [('mmr_account_move_ids','=',False)]}" class="oe_highlight"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+  </data>
+</openerp>
