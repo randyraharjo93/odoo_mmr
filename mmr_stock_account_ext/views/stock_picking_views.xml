@@ -14,6 +14,9 @@
                         <group>
                             <button name="%(action_change_date_wizard)d" type="action" string="Force Change Date" group="account.group_account_manager" attrs="{'invisible': [('mmr_account_move_ids','=',False)]}" class="oe_highlight"/>
                         </group>
+                        <group>
+                            <field name="mmr_invoice_date"/>
+                        </group>
                     </page>
                 </xpath>
             </field>
