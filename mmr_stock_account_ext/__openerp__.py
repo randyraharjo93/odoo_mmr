@@ -12,8 +12,8 @@
         ],
     'init_xml': [],
     'update_xml': [
-        'views/stock_picking_views.xml',
         'wizard/change_date_wizard_views.xml',
+        'views/stock_picking_views.xml',
         'wizard/stock_report_view.xml',
     ],
     'css': [],
