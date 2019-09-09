@@ -12,15 +12,17 @@ class Picking(models.Model):
 
     @api.one
     def _get_journal_entry(self):
-        self.mmr_account_move_ids = [(6, 0, self.env['account.move'].search(['|', ('ref', 'ilike', self.name), ('name', 'ilike', self.name)]).ids)]
+        if self.user_has_groups('account.group_account_user'):
+            self.mmr_account_move_ids = [(6, 0, self.env['account.move'].search(['|', ('ref', 'ilike', self.name), ('name', 'ilike', self.name)]).ids)]
 
     @api.one
     def _get_invoice_date(self):
-        if self.sale_id:
-            for invoice_id in self.sale_id.invoice_ids:
-                self.mmr_invoice_date = invoice_id.date_invoice
-        elif self.purchase_id:
-            for invoice_id in self.purchase_id.invoice_ids:
-                self.mmr_invoice_date = invoice_id.date_invoice
-        else:
-            self.mmr_invoice_date = False
+        if self.user_has_groups('account.group_account_user'):
+            if self.sale_id:
+                for invoice_id in self.sale_id.invoice_ids:
+                    self.mmr_invoice_date = invoice_id.date_invoice
+            elif self.purchase_id:
+                for invoice_id in self.purchase_id.invoice_ids:
+                    self.mmr_invoice_date = invoice_id.date_invoice
+            else:
+                self.mmr_invoice_date = False

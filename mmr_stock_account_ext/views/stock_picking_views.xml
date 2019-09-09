@@ -9,13 +9,13 @@
             <field name="model">stock.picking</field>
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
-                    <page string="Accounting" name="accounting" group="account.group_account_user">
-                        <field name="mmr_account_move_ids" nolabel="1"/>
+                    <page string="Accounting" name="accounting" groups="account.group_account_user">
+                        <field name="mmr_account_move_ids" nolabel="1" groups="account.group_account_user"/>
                         <group>
-                            <button name="%(action_change_date_wizard)d" type="action" string="Force Change Date" group="account.group_account_manager" attrs="{'invisible': [('mmr_account_move_ids','=',False)]}" class="oe_highlight"/>
+                            <button name="%(action_change_date_wizard)d" type="action" string="Force Change Date" groups="account.group_account_manager" attrs="{'invisible': [('mmr_account_move_ids','=',False)]}" class="oe_highlight"/>
                         </group>
                         <group>
-                            <field name="mmr_invoice_date"/>
+                            <field name="mmr_invoice_date" groups="account.group_account_user"/>
                         </group>
                     </page>
                 </xpath>
