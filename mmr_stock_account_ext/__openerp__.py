@@ -13,6 +13,7 @@
     'init_xml': [],
     'update_xml': [
         'wizard/change_date_wizard_views.xml',
+        'wizard/wizard_valuation_history_views.xml',
         'views/stock_picking_views.xml',
         'wizard/stock_report_view.xml',
     ],
