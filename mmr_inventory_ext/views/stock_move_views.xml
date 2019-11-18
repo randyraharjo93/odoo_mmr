@@ -15,13 +15,24 @@
             </field>
         </record>
 
+        <record id="mmr_stock_move_form" model="ir.ui.view">
+            <field name="name">mmr.stock.move.form</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="model">stock.move</field>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='moved_quants_grp']" position="attributes">
+                    <attribute name="groups"></attribute>
+                </xpath>
+            </field>
+        </record>
+
         <record id="mmr_stock_quant_form" model="ir.ui.view">
             <field name="name">mmr.stock.quant.form</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="stock.view_stock_quant_form"/>
             <field name="model">stock.quant</field>
             <field name="arch" type="xml">
-
                 <xpath expr="//field[@name='inventory_value']" position="replace">
                     <label for="inventory_value" string="Inventory Value"/>
                     <div>
