@@ -17,6 +17,7 @@
         'views/stock_move_views.xml',
         'views/stock_pack_operation_views.xml',
         'wizard/stock_report_view.xml',
+        'wizard/stock_quant_change_view.xml',
     ],
     'css': [],
     'js': [],

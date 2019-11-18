@@ -1,1 +1,2 @@
 import stock_report
+import stock_quant_change

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="stock_quant_change_form_view" model="ir.ui.view">
+            <field name="name">Stock Quant Change</field>
+            <field name="model">stock.quant.change</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Stock Quant Change">
+                	<group string="Stock Quant Change">
+                        <field name="new_value"/>
+					</group>
+                    <footer>
+                        <button string="Change" name="button_change_value" type="object" default_focus="1" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

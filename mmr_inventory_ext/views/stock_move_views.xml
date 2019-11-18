@@ -21,14 +21,23 @@
             <field name="inherit_id" ref="stock.view_stock_quant_form"/>
             <field name="model">stock.quant</field>
             <field name="arch" type="xml">
-                <!-- Add partner Name -->
-                <xpath expr="//field[@name='inventory_value']" position="after">
-                    <button string="Refresh"
+
+                <xpath expr="//field[@name='inventory_value']" position="replace">
+                    <label for="inventory_value" string="Inventory Value"/>
+                    <div>
+                        <field name="inventory_value" class="oe_inline"/>
+                        <button string="Refresh"
                                 icon="fa-refresh"
                                 name="recompute_inventory_value"
                                 type="object"
-                                class="oe_link"/>
-                    <field name="id" invisible="0"/>
+                                class="oe_link oe_inline"/>
+                        <button string="Manual Change"
+                                icon="fa-edit"
+                                name="change_inventory_value"
+                                type="object"
+                                class="oe_link oe_inline"/>
+                    </div>
+                    <field name="id" groups="base.group_no_one"/>
                 </xpath>
             </field>
         </record>
