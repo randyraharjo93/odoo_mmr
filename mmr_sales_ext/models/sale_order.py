@@ -23,6 +23,7 @@ class SaleOrderLine(models.Model):
 
     mmr_code_p = fields.Boolean(string='Code P', track_visibility='onchange')
     order_confirmation_date = fields.Datetime("Confirm Date", related="order_id.confirmation_date", store=True)
+    mmr_internal_code = fields.Char("Internal Code", related="order_id.mmr_internal_code", store=True)
 
     # Onchange Code P
     @api.onchange('order_partner_id', 'product_id')
