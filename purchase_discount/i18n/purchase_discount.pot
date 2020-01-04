@@ -4,10 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-01 00:42+0000\n"
-"PO-Revision-Date: 2015-09-01 00:42+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,18 +14,24 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: purchase_discount
-#: view:website:purchase.report_purchaseorder_document
-msgid "Disc.(%)"
+#: model:ir.ui.view,arch_db:purchase_discount.report_purchaseorder_document
+msgid "<strong>Disc. (%)</strong>"
 msgstr ""
 
 #. module: purchase_discount
-#: field:purchase.order.line,discount:0
+#: model:ir.model.fields,field_description:purchase_discount.field_purchase_order_line_discount
+#: model:ir.model.fields,field_description:purchase_discount.field_purchase_report_discount
 msgid "Discount (%)"
 msgstr ""
 
 #. module: purchase_discount
 #: sql_constraint:purchase.order.line:0
 msgid "Discount must be lower than 100%."
+msgstr ""
+
+#. module: purchase_discount
+#: model:ir.model,name:purchase_discount.model_account_invoice
+msgid "Invoice"
 msgstr ""
 
 #. module: purchase_discount
@@ -41,7 +45,7 @@ msgid "Purchase Order Line"
 msgstr ""
 
 #. module: purchase_discount
-#: model:ir.model,name:purchase_discount.model_stock_move
-msgid "Stock Move"
+#: model:ir.model,name:purchase_discount.model_purchase_report
+msgid "Purchases Orders"
 msgstr ""
 

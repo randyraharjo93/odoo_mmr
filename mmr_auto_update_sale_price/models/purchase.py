@@ -31,7 +31,6 @@ class PurchaseOrder(models.Model):
         for order in self:
             need_notification = False
             for purchase_line in order.order_line:
-                print purchase_line.product_uom.category_id
                 base_uom_id = purchase_line.product_uom.search([('category_id', '=', purchase_line.product_uom.category_id.id), ('uom_type', '=', 'reference')])
                 if base_uom_id:
                     if purchase_line.product_qty > 0:
