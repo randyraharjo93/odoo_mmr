@@ -21,7 +21,12 @@ class PurchaseOrder(models.Model):
                 base_uom_id = purchase_line.product_uom.search([('category_id', '=', purchase_line.product_uom.category_id.id), ('uom_type', '=', 'reference')])
                 if base_uom_id:
                     if purchase_line.product_qty > 0:
-                        purchase_price_plus15 = purchase_line.price_subtotal / (purchase_line.product_uom._compute_quantity(purchase_line.product_qty, base_uom_id)) + (purchase_line.price_subtotal / (purchase_line.product_uom._compute_quantity(purchase_line.product_qty, base_uom_id)) * 0.15)
+                        real_qty = purchase_line.product_uom._compute_quantity(purchase_line.product_qty, base_uom_id)
+                        unit_price = purchase_line.price_unit
+                        if real_qty != purchase_line.product_qty:
+                            unit_price = purchase_line.price_unit / real_qty
+                        discounted_unit_price = unit_price - (unit_price * purchase_line.discount / 100)
+                        purchase_price_plus15 = discounted_unit_price + (discounted_unit_price * 0.15)
                         if purchase_price_plus15 > purchase_line.product_id.lst_price:
                             purchase_line.product_id.lst_price = purchase_price_plus15
         return True
@@ -34,7 +39,12 @@ class PurchaseOrder(models.Model):
                 base_uom_id = purchase_line.product_uom.search([('category_id', '=', purchase_line.product_uom.category_id.id), ('uom_type', '=', 'reference')])
                 if base_uom_id:
                     if purchase_line.product_qty > 0:
-                        purchase_price_plus15 = purchase_line.price_subtotal / (purchase_line.product_uom._compute_quantity(purchase_line.product_qty, base_uom_id)) + (purchase_line.price_subtotal / (purchase_line.product_uom._compute_quantity(purchase_line.product_qty, base_uom_id)) * 0.15)
+                        real_qty = purchase_line.product_uom._compute_quantity(purchase_line.product_qty, base_uom_id)
+                        unit_price = purchase_line.price_unit
+                        if real_qty != purchase_line.product_qty:
+                            unit_price = purchase_line.price_unit / real_qty
+                        discounted_unit_price = unit_price - (unit_price * purchase_line.discount / 100)
+                        purchase_price_plus15 = discounted_unit_price + (discounted_unit_price * 0.15)
                         if purchase_price_plus15 > purchase_line.product_id.lst_price:
                             need_notification = True
             if need_notification:
