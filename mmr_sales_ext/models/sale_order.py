@@ -52,7 +52,7 @@ class SaleOrderLine(models.Model):
 
         res = super(SaleOrderLine, self)._prepare_invoice_line(qty)
         expired_date_description = ""
-        for picking in self.order_id.picking_ids.filtered(lambda r: not r.mmr_checked_in_invoice):
+        for picking in self.order_id.picking_ids.filtered(lambda r: not r.mmr_checked_in_invoice and r.state == 'done'):
             picking.mmr_checked_in_invoice = True
             for operation in picking.pack_operation_product_ids.filtered(lambda r:r.product_id == self.product_id):
                 for lot in operation.pack_lot_ids:
