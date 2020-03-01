@@ -43,6 +43,23 @@ class SaleOrderLine(models.Model):
         self.update(vals)
         return result
 
+    @api.multi
+    def _prepare_invoice_line(self, qty):
+        """
+        Add Current Delivery Information
+        """
+        self.ensure_one()
+
+        res = super(SaleOrderLine, self)._prepare_invoice_line(qty)
+        expired_date_description = ""
+        for picking in self.order_id.picking_ids.filtered(lambda r: not r.mmr_checked_in_invoice):
+            picking.mmr_checked_in_invoice = True
+            for operation in picking.pack_operation_product_ids.filtered(lambda r:r.product_id == self.product_id):
+                for lot in operation.pack_lot_ids:
+                    expired_date_description += "[" + lot.lot_id.name + "] : " + str(lot.qty) + " "
+        res['name'] = expired_date_description or "/"
+        return res
+
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"

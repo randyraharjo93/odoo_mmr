@@ -10,6 +10,8 @@ class Picking(models.Model):
     mmr_internal_code = fields.Char("Internal Code", compute="_get_internal_code_name")
     mmr_source_sales_order = fields.Char(string="Source Sales Order", compute="_get_source_sale_order")
 
+    mmr_checked_in_invoice = fields.Boolean("Checked in Invoice")
+
     @api.one
     @api.depends('sale_id')
     def _get_source_sale_order(self):
