@@ -24,9 +24,8 @@ class SaleOrder(models.Model):
         debit, credit = 0.0, 0.0
         today_dt = datetime.strftime(datetime.now().date(), DF)
         for line in movelines:
-            if line.date < today_dt:
-                credit += line.debit
-                debit += line.credit
+            credit += line.debit
+            debit += line.credit
 
         if (credit - debit + self.amount_total) > partner.credit_limit:
             if not partner.over_credit:
