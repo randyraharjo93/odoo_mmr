@@ -20,6 +20,9 @@
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_create_faktur" type="object" string="Create Faktur Pajak Masukan" class="oe_highlight" groups="account.group_account_invoice" attrs="{'invisible': ['|', ('type', 'not in', ['in_invoice']), ('nomor_faktur_pajak', '=', False)]}"/>
+                </xpath>
                 <xpath expr="//field[@name='date_invoice']" position="after">
                     <field name="nomor_faktur_pajak"/>
                 </xpath>

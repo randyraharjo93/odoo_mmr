@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class AccountInvoice(models.Model):
@@ -47,6 +48,9 @@ class AccountInvoice(models.Model):
                         'tahun_penerbit': tahun,
                         'nomor_urut': nomor_fp,
                         }
+                    # Find first if this number already used
+                    if len(self.env['faktur.pajak'].search([('tahun_penerbit', '=', tahun), ('kode_cabang', '=', kode_cabang), ('nomor_urut', '=', nomor_fp)])) > 0:
+                        raise UserError(_('Faktur Pajak with this number already exist.'))
                     faktur_obj.create(vals)
 
     @api.multi
