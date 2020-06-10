@@ -10,6 +10,7 @@
     'init_xml': [],
     'update_xml': [
         'security/ir.model.access.csv',
+        'security/faktur_security.xml',
         'views/faktur_pajak.xml',
         'views/invoice_inherit_view.xml',
         'wizard/generate_faktur_view.xml',
