@@ -17,7 +17,7 @@ class FakturPajak(models.Model):
     dpp = fields.Monetary(string='Untaxed Amount')
     tax_amount = fields.Monetary(string="Tax Amount")
     date_used = fields.Date(string="Used Date")
-    company_id = fields.Many2one('res.company', string='Company')
+    company_id = fields.Many2one('res.company', string='Company', related="invoice_id.company_id")
     currency_id = fields.Many2one('res.currency', string='Currency')
     pajak_type = fields.Selection([('in', 'Faktur Pajak Masukan'), ('out', 'Faktur Pajak Keluaran')], string='Type', default="out")
     state = fields.Selection([('0', 'Not Used'), ('1', 'Used'), ('2', 'Reported'), ('3', 'Cancelled')], string='Status', default='0')
