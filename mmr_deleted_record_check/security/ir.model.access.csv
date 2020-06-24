@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_deleted_record_history_user,deleted.record.history.user,mmr_deleted_record_check.model_deleted_record_history,base.group_user,1,1,1,1
+access_ir_sequence_log_user,ir.sequence.log.user,mmr_deleted_record_check.model_ir_sequence_log,base.group_user,1,1,1,1
