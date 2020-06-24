@@ -25,6 +25,7 @@ class generate_faktur_pajak(models.TransientModel):
                 'nomor_urut': '%08d' % awal,
                 'state': '0',
                 'pajak_type': self.pajak_type,
+                'company_id': self.env.user.company_id.id,
                 }
             pajak_obj.create(vals)
             awal += 1

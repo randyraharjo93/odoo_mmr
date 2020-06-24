@@ -26,6 +26,7 @@ class AccountInvoice(models.Model):
                     'tax_amount': inv.amount_tax or 0.0,
                     'currency_id': inv.currency_id.id,
                     'state': '1',
+                    'company_id': inv.company_id.id,
                     }
                 inv.faktur_pajak.write(vals)
             if inv.type == 'in_invoice':
@@ -47,6 +48,7 @@ class AccountInvoice(models.Model):
                         'kode_cabang': kode_cabang,
                         'tahun_penerbit': tahun,
                         'nomor_urut': nomor_fp,
+                        'company_id': inv.company_id.id,
                         }
                     # Find first if this number already used
                     if len(self.env['faktur.pajak'].search([('tahun_penerbit', '=', tahun), ('kode_cabang', '=', kode_cabang), ('nomor_urut', '=', nomor_fp)])) > 0:
