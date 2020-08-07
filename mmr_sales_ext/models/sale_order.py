@@ -72,7 +72,7 @@ class SaleOrder(models.Model):
     def action_confirm(self):
         res = super(SaleOrder, self).action_confirm()
         for order in self:
-            if not self.user_has_groups('base.group_erp_manager'):
+            if not self.user_has_groups('sales_team.group_sale_manager'):
                 for order_line in order.order_line:
                     unit_price_final = order_line.price_subtotal / order_line.product_uom_qty
                     if unit_price_final < order_line.product_id.lst_price:
