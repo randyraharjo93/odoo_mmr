@@ -24,7 +24,7 @@ class SaleOrder(models.Model):
         moveline_obj = self.env['account.move.line']
         movelines = moveline_obj.\
             sudo().search([('partner_id', 'in', partners),
-                    ('account_id.user_type_id.type', 'in', ['receivable', 'payable'])])
+                    ('account_id.user_type_id.type', 'in', ['receivable', 'payable']), ('move_id.state', '=', 'posted'), ('invoice_id', '!=', False)])
         confirm_sale_order = self.search([('partner_id', 'in', partners),
                                           ('state', '=', 'sale')])
         debit, credit = 0.0, 0.0
@@ -32,8 +32,9 @@ class SaleOrder(models.Model):
         for status in confirm_sale_order:
             amount_total += status.amount_total
         for line in movelines:
-            credit += line.credit
-            debit += line.debit
+            if any(ail.sale_line_ids for ail in line.invoice_id.invoice_line_ids):
+                credit += line.credit
+                debit += line.debit
         partner_credit_limit = (partner.credit_limit - debit) + credit
         available_credit_limit = ((partner_credit_limit -
                                    (amount_total - debit)) + self.amount_total)
