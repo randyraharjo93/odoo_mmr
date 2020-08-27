@@ -41,15 +41,15 @@ class SaleOrder(models.Model):
         # Checking on 2 sides
         # A: From the Sales Order PoV, with risk of Invoice without sales order
         # B: From Invoice point of View, with risk of confirming Sales Order if there is a lot of Confirmed SO
-        # if ((amount_total + self.amount_total - debit) > partner_credit_limit) or (partner_credit_limit - self.amount_total < 0):
-        #     # Consider partners who are under a company.
-        #     if not partner.over_credit:
-        #         msg = 'Your available credit limit'\
-        #               ' Amount = %s \nCheck "%s" Accounts or Credit ' \
-        #               'Limits.' % (available_credit_limit,
-        #                            self.partner_id.name)
-        #         raise UserError(_('You can not confirm Sale Order. \n' + msg))
-        #     partner.write({'credit_limit': debit + self.amount_total})
+        if ((amount_total - debit) > partner_credit_limit) or (partner_credit_limit - self.amount_total < 0):
+            # Consider partners who are under a company.
+            if not partner.over_credit:
+                msg = 'Your available credit limit'\
+                      ' Amount = %s \nCheck "%s" Accounts or Credit ' \
+                      'Limits.' % (available_credit_limit,
+                                   self.partner_id.name)
+                raise UserError(_('You can not confirm Sale Order. \n' + msg))
+            partner.write({'credit_limit': debit + self.amount_total})
         return True
 
     @api.multi
