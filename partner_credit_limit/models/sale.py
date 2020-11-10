@@ -46,8 +46,23 @@ class SaleOrder(models.Model):
             if not partner.over_credit:
                 msg = 'Your available credit limit'\
                       ' Amount = %s \nCheck "%s" Accounts or Credit ' \
-                      'Limits.' % (available_credit_limit,
-                                   self.partner_id.name)
+                      'Limits. \n' \
+                      'Details: \n' \
+                      'Confirmed Sales Order: %s \n' \
+                      'Debit (Paid Invoice): %s \n' \
+                      'Credit (Unpaid Invoice): %s \n' \
+                      'Customer Limit: %s \n' \
+                      'Processed Limit (Customer Limit - Debit + Credit): %s \n' \
+                      'This Sales Amounts: %s \n' \
+                      'How to Calculate (Order will not go through IF): \n' \
+                      '(Confirmed Sales Order - Debit > Limit) OR (Limit - This Sales Amounts < 0)\n' % (available_credit_limit,
+                            self.partner_id.name,
+                            amount_total,
+                            debit,
+                            credit,
+                            partner.credit_limit,
+                            partner_credit_limit,
+                            self.amount_total)
                 raise UserError(_('You can not confirm Sale Order. \n' + msg))
             partner.write({'credit_limit': debit + self.amount_total})
         return True
