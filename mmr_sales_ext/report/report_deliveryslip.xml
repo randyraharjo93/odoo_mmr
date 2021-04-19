@@ -3,7 +3,7 @@
     <data>
         <template id="report_delivery_document_mmr" inherit_id="stock.report_delivery_document">
             <xpath expr="//div[@class='page']" position="attributes">
-                <attribute name="style">font-size: 13px;</attribute>
+                <attribute name="style">font-size: 14px;</attribute>
             </xpath>
 
             <xpath expr="//div[@name='customer_address']/div[1]" position="attributes">

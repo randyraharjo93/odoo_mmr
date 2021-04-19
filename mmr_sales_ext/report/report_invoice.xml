@@ -3,7 +3,7 @@
     <data>
         <template id="report_invoice_document_mmr" inherit_id="account.report_invoice_document">
             <xpath expr="//div[@class='page']" position="attributes">
-                <attribute name="style">font-size: 13px;</attribute>
+                <attribute name="style">font-size: 14px;</attribute>
             </xpath>
             <xpath expr="//div[@class='page']/div[@class='row'][1]/div" position="before">
                 <div class="col-xs-4" >
