@@ -3,23 +3,23 @@
     <data>
         <template id="report_invoice_document_mmr" inherit_id="account.report_invoice_document">
             <xpath expr="//div[@class='page']" position="attributes">
-                <attribute name="style">font-size: 15px;</attribute>
+                <attribute name="style">font-size: 13px;</attribute>
             </xpath>
             <xpath expr="//div[@class='page']/div[@class='row'][1]/div" position="before">
                 <div class="col-xs-4" >
                     <div class="row">
                         <div class="col-xs-12">
-                            <b style="font-size: 15px;">
+                            <b style="font-size: 13px;">
                                 <span t-field="o.company_id.display_name"/>
                             </b>
                         </div>
                     </div>
-                    <div class="row" style="font-size: 11px;">
+                    <div class="row" style="font-size: 10px;">
                         <div class="col-xs-12">
                             <span t-field="o.company_id.rml_header1"/>
                         </div>
                     </div>
-                    <div class="row" style="font-size: 11px;">
+                    <div class="row" style="font-size: 10px;">
                         <div class="col-xs-6" name="company_phone">
                             <span>Office : </span>
                             <span t-field="o.company_id.partner_id.phone"/>
@@ -29,7 +29,7 @@
                             <span t-field="o.company_id.partner_id.fax"/>
                         </div>
                     </div>
-                    <div class="row" style="font-size: 11px;">
+                    <div class="row" style="font-size: 10px;">
                         <div class="col-xs-12" name="company_address">
                             <span t-field="o.company_id.partner_id.street"/>
                         </div>
@@ -39,7 +39,7 @@
                     </div>
                 </div>
                  <div class="col-xs-4 text-center">
-                    <div style="font-size: 15px;">
+                    <div style="font-size: 13px;">
                         <strong>
                             <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Invoice</span>
                             <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
@@ -96,7 +96,7 @@
             <xpath expr="//div[@class='page']/table/tbody/tr/td[1]" position="before">
                 <td>
                     <span t-field="l.product_id.name"/>
-                </td> 
+                </td>
             </xpath>
 
             <xpath expr="//div[@class='page']/table/thead/tr/th[7]" position="replace">
@@ -130,7 +130,7 @@
             </xpath>
 
             <xpath expr="//div[@class='page']" position="after">
-                <div class="footer" style="font-size: 15px;">
+                <div class="footer" style="font-size: 13px;">
                     <div class="text-center">
                         <span> Faktur ini sah apabila terdapat tanda tangan lengkap dibawah ini </span>
                     </div>
@@ -144,7 +144,7 @@
                     <br/>
                     <br/>
                     <br/>
-                    <ul class="list-inline" style="font-size: 11px;">
+                    <ul class="list-inline" style="font-size: 10px;">
                         <li>Page:</li>
                         <li><span class="page"/></li>
                         <li>/</li>

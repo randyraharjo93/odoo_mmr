@@ -3,28 +3,28 @@
     <data>
         <template id="report_delivery_document_mmr" inherit_id="stock.report_delivery_document">
             <xpath expr="//div[@class='page']" position="attributes">
-                <attribute name="style">font-size: 15px;</attribute>
+                <attribute name="style">font-size: 13px;</attribute>
             </xpath>
 
             <xpath expr="//div[@name='customer_address']/div[1]" position="attributes">
                 <attribute name="class">text-right</attribute>
             </xpath>
-            
+
             <xpath expr="//div[@name='customer_address']/div[1]" position="before">
                 <div class="col-xs-4" >
                     <div class="row">
                         <div class="col-xs-12">
-                            <b style="font-size: 15px;">
+                            <b style="font-size: 13px;">
                                 <span t-field="o.company_id.display_name"/>
                             </b>
                         </div>
                     </div>
-                    <div class="row" style="font-size: 11px;">
+                    <div class="row" style="font-size: 10px;">
                         <div class="col-xs-12">
                             <span t-field="o.company_id.rml_header1"/>
                         </div>
                     </div>
-                    <div class="row" style="font-size: 11px;">
+                    <div class="row" style="font-size: 10px;">
                         <div class="col-xs-6" name="company_phone">
                             <span>Office : </span>
                             <span t-field="o.company_id.partner_id.phone"/>
@@ -34,7 +34,7 @@
                             <span t-field="o.company_id.partner_id.fax"/>
                         </div>
                     </div>
-                    <div class="row" style="font-size: 11px;">
+                    <div class="row" style="font-size: 10px;">
                         <div class="col-xs-12" name="company_address">
                             <span t-field="o.company_id.partner_id.street"/>
                         </div>
@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="col-xs-4 text-center" >
-                    <div style="font-size: 15px;">
+                    <div style="font-size: 13px;">
                         <span><strong>Surat Jalan</strong></span>
                     </div>
                     <div>
@@ -53,7 +53,7 @@
                     <div>
                         <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
                     </div>
-                    <table class="table table-condensed" style="font-size: 11px;">
+                    <table class="table table-condensed" style="font-size: 10px;">
                         <thead>
                             <tr>
                                 <th t-if="o.mmr_source_sales_order"><strong>Order (Origin)</strong></th>
@@ -111,7 +111,7 @@
             </xpath>
 
             <xpath expr="//div[@class='page']" position="after">
-                <div class="footer" style="font-size: 15px;">
+                <div class="footer" style="font-size: 13px;">
                     <div class="text-center">
                         <span> Surat Jalan ini sah apabila terdapat tanda tangan lengkap dibawah ini </span>
                     </div>
@@ -131,7 +131,7 @@
                     <br/>
                     <br/>
                     <br/>
-                    <ul class="list-inline" style="font-size: 11px;">
+                    <ul class="list-inline" style="font-size: 10px;">
                         <li>Page:</li>
                         <li><span class="page"/></li>
                         <li>/</li>
