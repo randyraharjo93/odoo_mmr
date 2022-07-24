@@ -22,6 +22,7 @@ class SaleOrderLine(models.Model):
     # Adding some required field
 
     mmr_code_p = fields.Boolean(string='Code P', track_visibility='onchange')
+    mmr_mou_id = fields.Many2one("mmr.mou", "MoU")
     order_confirmation_date = fields.Datetime("Confirm Date", related="order_id.confirmation_date", store=True)
     mmr_internal_code = fields.Char("Internal Code", related="order_id.mmr_internal_code", store=True)
 

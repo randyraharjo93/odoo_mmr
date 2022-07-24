@@ -20,9 +20,11 @@
                 </xpath>
                 <xpath expr="//form/sheet/notebook/page[1]/field[@name='order_line']/tree/field[@name='product_id']" position="before">
                     <field name="mmr_code_p"/>
+                    <field name="mmr_mou_id"/>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/form//field[@name='tax_id']" position="before">
                     <field name="mmr_code_p"/>
+                    <field name="mmr_mou_id"/>
                 </xpath>
                 <xpath expr="//form/sheet/notebook/page[2]/group/group[1]" position="inside">
                     <field name="mmr_fee" group="account.group_account_invoice"/>

@@ -26,6 +26,7 @@
         'views/sale_order_view.xml',
         'views/account_invoice.xml',
         'views/account_views.xml',
+        'views/mmr_mou_views.xml',
         'views/res_partner_views.xml',
         'views/stock_move_views.xml',
         'report/report_deliveryslip.xml',
