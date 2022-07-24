@@ -9,10 +9,12 @@
     """,
     "depends": [
         'account',
+        'account_budget'
         ],
     'init_xml': [],
     'update_xml': [
         'wizard/multiple_cancel_view.xml',
+        'views/account_budget_views.xml',
     ],
     'css': [],
     'js': [],
