@@ -18,6 +18,7 @@
                                 <field name="tnc"/>
                                 <field name="date_start"/>
                                 <field name="date_end"/>
+                                <field name="reminder"/>
                             </group>
                             <group>
                                 <field name="expected_value"/>
@@ -41,10 +42,30 @@
                     <field name="tnc"/>
                     <field name="date_start"/>
                     <field name="date_end"/>
+                    <field name="reminder"/>
                     <field name="expected_value"/>
                     <field name="currency_id"/>
                     <field name="company_id"/>
                 </tree>
+            </field>
+        </record>
+
+        <record id="mmr_mou_search" model="ir.ui.view">
+            <field name="name">mmr.mou.search</field>
+            <field name="model">mmr.mou</field>
+            <field name="arch" type="xml">
+                <search string="Search MoU">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <separator/>
+                    <filter name="open" string="Open" domain="[('date_end', '&gt;=', (context_today() + datetime.timedelta(90)).strftime('%%Y-%%m-%%d'))]" help="Open MoU"/>
+                    <filter name="3m" string="Close in 3 Months" domain="[('date_end', '&lt;', (context_today() + datetime.timedelta(90)).strftime('%%Y-%%m-%%d')), ('date_end', '&gt;=', (context_today() + datetime.timedelta(60)).strftime('%%Y-%%m-%%d'))]" help="MoU Close in 3 Month"/>
+                    <filter name="2m" string="Close in 2 Months" domain="[('date_end', '&lt;', (context_today() + datetime.timedelta(60)).strftime('%%Y-%%m-%%d')), ('date_end', '&gt;=', (context_today() + datetime.timedelta(30)).strftime('%%Y-%%m-%%d'))]" help="MoU Close in 2 Month"/>
+                    <filter name="1m" string="Close in 1 Months" domain="[('date_end', '&lt;', (context_today() + datetime.timedelta(30)).strftime('%%Y-%%m-%%d')), ('date_end', '&gt;=', (context_today() + datetime.timedelta(0)).strftime('%%Y-%%m-%%d'))]" help="MoU Close in 1 Month"/>
+                    <filter name="close" string="Closed" domain="[('date_end', '&lt;', time.strftime('%%Y-%%m-%%d'))]" help="Close MoU"/>
+                </search>
             </field>
         </record>
 
