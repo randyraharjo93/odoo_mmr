@@ -23,10 +23,11 @@ class generate_faktur_pajak(models.TransientModel):
                 'nomor_perusahaan': self.nomor_perusahaan,
                 'tahun_penerbit': self.tahun,
                 'nomor_urut': '%08d' % awal,
+                'kode_cabang': self.kode_cabang,
                 'state': '0',
                 'pajak_type': self.pajak_type,
                 'company_id': self.env.user.company_id.id,
-                }
+            }
             pajak_obj.create(vals)
             awal += 1
         return {'type': 'ir.actions.act_window_close'}
