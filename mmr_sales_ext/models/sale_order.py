@@ -19,8 +19,26 @@ class CodePList(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    # Adding some required field
 
+    @api.depends('invoice_lines.invoice_id.state')
+    def _compute_payment_status(self):
+        for line in self:
+            if any(invoice.invoice_id.state == 'paid' for invoice in line.invoice_lines):
+                # There is a payment already
+                line.payment_status = 'paid'
+            elif any(invoice.invoice_id.state == 'open' for invoice in line.invoice_lines):
+                # But if there is an open invoice
+                line.payment_status = 'open'
+            else:
+                # Always start with No
+                line.payment_status = 'no'
+
+    # Adding some required field
+    payment_status = fields.Selection([
+        ('no', 'No Invoice'),
+        ('open', 'Open'),
+        ('paid', 'Paid')
+        ], string='Payment Status', compute='_compute_payment_status', store=True, readonly=True, default='no')
     mmr_code_p = fields.Boolean(string='Code P', track_visibility='onchange')
     mmr_mou_id = fields.Many2one("mmr.mou", "MoU")
     order_confirmation_date = fields.Datetime("Confirm Date", related="order_id.confirmation_date", store=True)
@@ -65,6 +83,23 @@ class SaleOrderLine(models.Model):
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    @api.depends('state', 'order_line.payment_status')
+    def _get_paid(self):
+        for order in self:
+            if order.state not in ('sale', 'done'):
+                order.payment_status = 'no'
+            elif any(order_line.payment_status == 'open' for order_line in order.order_line):
+                order.payment_status = 'open'
+            elif all(invoice_status == 'paid' for order_line in order.order_line):
+                invoice_status = 'paid'
+            else:
+                invoice_status = 'no'
+
+    payment_status = fields.Selection([
+        ('no', 'No Invoice'),
+        ('open', 'Open'),
+        ('paid', 'Paid')
+        ], string='Payment Status', compute='_get_paid', store=True, readonly=True, default='no')
     mmr_fee = fields.Monetary("Fee", track_visibility='onchange')
     mmr_internal_code = fields.Char("Internal Code")
     mmr_internal_code_number = fields.Char("Internal Code Number")
