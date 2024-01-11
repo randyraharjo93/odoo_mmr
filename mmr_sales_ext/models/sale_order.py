@@ -90,7 +90,7 @@ class SaleOrder(models.Model):
                 order.payment_status = 'no'
             elif any(order_line.payment_status == 'open' for order_line in order.order_line):
                 order.payment_status = 'open'
-            elif all(invoice_status == 'paid' for order_line in order.order_line):
+            elif all(order_line.payment_status == 'paid' for order_line in order.order_line):
                 order.payment_status = 'paid'
             else:
                 order.payment_status = 'no'
