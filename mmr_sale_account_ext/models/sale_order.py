@@ -13,7 +13,7 @@ class SaleOrderLine(models.Model):
     @api.depends('invoice_lines.invoice_id.state')
     def _compute_payment_status(self):
         for line in self:
-            if any(invoice.invoice_id.state == 'paid' for invoice in line.invoice_lines):
+            if all(invoice.invoice_id.state == 'paid' for invoice in line.invoice_lines):
                 # There is a payment already
                 line.payment_status = 'paid'
             elif any(invoice.invoice_id.state == 'open' for invoice in line.invoice_lines):
@@ -40,7 +40,7 @@ class SaleOrder(models.Model):
                 order.payment_status = 'no'
             elif any(order_line.payment_status == 'open' for order_line in order.order_line):
                 order.payment_status = 'open'
-            elif all(invoice_status == 'paid' for order_line in order.order_line):
+            elif all(order_line.payment_status == 'paid' for order_line in order.order_line):
                 invoice_status = 'paid'
             else:
                 invoice_status = 'no'
