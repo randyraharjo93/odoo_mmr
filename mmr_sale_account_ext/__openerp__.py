@@ -14,7 +14,8 @@
     'init_xml': [],
     'update_xml': [
         'data/mmr_account_data.xml',
-        'views/account_views.xml'
+        'views/account_views.xml',
+        'views/sale_views.xml',
     ],
     'css': [],
     'js': [],
