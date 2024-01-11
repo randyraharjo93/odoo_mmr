@@ -13,10 +13,10 @@ class SaleOrderLine(models.Model):
     @api.depends('invoice_lines.invoice_id.state')
     def _compute_payment_status(self):
         for line in self:
-            if any(invoice.state == 'paid' for invoice in line.invoice_lines):
+            if any(invoice.invoice_id.state == 'paid' for invoice in line.invoice_lines):
                 # There is a payment already
                 line.payment_status = 'paid'
-            elif any(invoice.state == 'open' for invoice in line.invoice_lines):
+            elif any(invoice.invoice_id.state == 'open' for invoice in line.invoice_lines):
                 # But if there is an open invoice
                 line.payment_status = 'open'
             else:
