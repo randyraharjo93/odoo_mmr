@@ -53,9 +53,9 @@
                 <xpath expr="//field[@name='name']" position="after">
                     <field name="mmr_internal_code"/>
                 </xpath>
-                <xpath expr="//field[@name='invoice_status']" position="after">
+                <!-- <xpath expr="//field[@name='invoice_status']" position="after">
                     <field name="payment_status"/>
-                </xpath>
+                </xpath> -->
             </field>
         </record>
 
