@@ -91,9 +91,9 @@ class SaleOrder(models.Model):
             elif any(order_line.payment_status == 'open' for order_line in order.order_line):
                 order.payment_status = 'open'
             elif all(invoice_status == 'paid' for order_line in order.order_line):
-                invoice_status = 'paid'
+                order.payment_status = 'paid'
             else:
-                invoice_status = 'no'
+                order.payment_status = 'no'
 
     payment_status = fields.Selection([
         ('no', 'No Invoice'),
