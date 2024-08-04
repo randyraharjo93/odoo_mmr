@@ -41,11 +41,14 @@
                             </field>
                         </div>
                     </xpath>
+                    <!-- Show warning on price -->
+                    <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
+                        <field name="warning"></field>
+                    </xpath>
                     <!-- Make Tree not editable bottom -->
                     <xpath expr="//field[@name='order_line']/tree" position="attributes">
                         <attribute name="editable"></attribute>
                     </xpath>
-
                 </data>
             </field>
         </record>
