@@ -15,6 +15,7 @@ class SaleOrderLine(models.Model):
     def _onchange_sale_order_line(self):
         order_line_ids = self.search([('product_id', '=', self.product_id.id), ('order_partner_id', '=', self.order_partner_id.id), ('state', '=', 'sale')], order="create_date desc")
         self.sale_order_line_history_ids = order_line_ids
+        self.use_last_price = False
 
     @api.onchange("price_unit", "sale_order_line_history_ids")
     def _onchange_price(self):
