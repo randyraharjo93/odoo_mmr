@@ -43,6 +43,7 @@
                     </xpath>
                     <!-- Show warning on price -->
                     <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
+                        <field name="use_last_price"></field>
                         <field name="warning"></field>
                     </xpath>
                     <!-- Make Tree not editable bottom -->
