@@ -21,5 +21,5 @@ class SaleOrderLine(models.Model):
     def _onchange_price(self):
         self.warning = '/'
         if self.sale_order_line_history_ids:
-            if tools.float_compare(self.sale_order_line_history_ids[0], self.price_unit, precision_digits=2) != 0:
+            if tools.float_compare(self.sale_order_line_history_ids[0].price_unit, self.price_unit, precision_digits=2) != 0:
                 self.warning = 'Unit Price difference than last unit price'
