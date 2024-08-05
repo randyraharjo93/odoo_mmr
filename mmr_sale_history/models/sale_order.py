@@ -23,8 +23,13 @@ class SaleOrderLine(models.Model):
         if self.sale_order_line_history_ids:
             if tools.float_compare(self.sale_order_line_history_ids[0].price_unit, self.price_unit, precision_digits=2) != 0:
                 self.warning = 'Unit Price difference than last unit price'
+            if tools.float_compare(self.sale_order_line_history_ids[0].discount, self.discount, precision_digits=2) != 0:
+                self.warning = 'Discount difference than last discount'
+            if tools.float_compare(self.sale_order_line_history_ids[0].price_unit, self.price_unit, precision_digits=2) != 0 and tools.float_compare(self.sale_order_line_history_ids[0].discount, self.discount, precision_digits=2) != 0:
+                self.warning = 'Unit Price difference than last unit price and Discount difference than last discount'
 
     @api.onchange("price_unit", "use_last_price")
     def _onchange_last_price(self):
         if self.use_last_price and self.sale_order_line_history_ids:
             self.price_unit = self.sale_order_line_history_ids[0].price_unit
+            self.discount = self.sale_order_line_history_ids[0].discount
