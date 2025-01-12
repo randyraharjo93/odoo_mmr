@@ -74,6 +74,7 @@
             </xpath>
 
             <xpath expr="//div[@class='page']/div[@class='row'][1]/div[@name='invoice_address']/span" position="replace">
+                <span t-if="o.partner_id.vat">NPWP: <span t-field="o.partner_id.vat"/></span>
             </xpath>
 
             <xpath expr="//h2" position="replace">
